@@ -7,46 +7,147 @@ export default function FormPage() {
     name: "",
     email: "",
     message: "",
+    address: "",
   });
 
+  const [conversation, setConversation] = useState([]);
   const [aiResponse, setAiResponse] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
 
+  // =========================
+  // INPUT
+  // =========================
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // =========================
+  // ENVIAR INCIDENCIA A IA
+  // =========================
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setLoading(true);
+
+    const updatedConversation = [
+      {
+        role: "user",
+        content: `
+        Nombre: ${formData.name}
+        Email: ${formData.email}
+
+        Ubicación:
+        ${formData.address}
+
+        Incidencia:
+        ${formData.message}
+        `,
+      },
+    ];
 
     const res = await fetch("/api/ai", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages: updatedConversation }),
+    });
+
+    const data = await res.json();
+
+    setConversation([
+      ...updatedConversation,
+      { role: "assistant", content: data.result },
+    ]);
+
+    setAiResponse(data.result);
+    setShowPopup(true);
+    setLoading(false);
+  };
+
+  // =========================
+  // FOLLOW UP IA
+  // =========================
+  const handleFollowUp = async () => {
+    if (!formData.message.trim()) return;
+
+    setLoading(true);
+
+    const updatedConversation = [
+      ...conversation,
+      { role: "user", content: formData.message },
+    ];
+
+    const res = await fetch("/api/ai", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages: updatedConversation }),
+    });
+
+    const data = await res.json();
+
+    setConversation([
+      ...updatedConversation,
+      { role: "assistant", content: data.result },
+    ]);
+
+    setAiResponse(data.result);
+    setFormData((prev) => ({ ...prev, message: "" }));
+
+    setLoading(false);
+  };
+
+  // =========================
+  // 🚨 ESCALAR INCIDENCIA (TICKET REAL)
+  // =========================
+  const createTicket = async () => {
+    const res = await fetch("/api/tickets/create", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        message: formData.message,
+        user: formData.name,
+        email: formData.email,
+        location: {
+          address: formData.address,
+        },
+        conversation,
       }),
     });
 
     const data = await res.json();
 
-    setAiResponse(data.result);
-    setShowPopup(true);
-    setLoading(false);
+    if (data.success) {
+      alert(`🚨 Ticket creado correctamente`);
+
+      setShowPopup(false);
+      setConversation([]);
+      setAiResponse("");
+
+      setFormData({
+        name: "",
+        email: "",
+        message: "",
+        address: "",
+      });
+    } else {
+      alert(data.message || "No se pudo crear el ticket");
+    }
+  };
+
+  // =========================
+  // ✔ SOLUCIONADO
+  // =========================
+  const handleSolved = () => {
+    alert("✅ Incidencia marcada como solucionada");
+
+    setShowPopup(false);
+    setConversation([]);
+    setAiResponse("");
 
     setFormData({
       name: "",
       email: "",
       message: "",
+      address: "",
     });
   };
 
@@ -57,7 +158,7 @@ export default function FormPage() {
       <form onSubmit={handleSubmit} style={styles.form}>
         <input
           name="name"
-          placeholder="Nombre"
+          placeholder="Nombre completo"
           value={formData.name}
           onChange={handleChange}
           style={styles.input}
@@ -71,29 +172,58 @@ export default function FormPage() {
           style={styles.input}
         />
 
+        {/* 📍 UBICACIÓN MANUAL */}
+        <textarea
+          name="address"
+          placeholder="Ubicación (ej: Calle Mayor 12, Barcelona)"
+          value={formData.address}
+          onChange={handleChange}
+          style={styles.textarea}
+        />
+
         <textarea
           name="message"
           placeholder="Describe tu incidencia..."
           value={formData.message}
           onChange={handleChange}
           style={styles.textarea}
-          required
         />
 
         <button type="submit" style={styles.button}>
-          {loading ? "Analizando con IA..." : "Enviar incidencia"}
+          {loading ? "Procesando..." : "Enviar incidencia"}
         </button>
       </form>
 
-      {/* POPUP IA */}
+      {/* =========================
+          POPUP IA
+      ========================= */}
       {showPopup && (
         <div style={styles.overlay}>
           <div style={styles.popup}>
-            <h2>🤖 Análisis de IA</h2>
+            <h2>🤖 Asistente IA</h2>
+
             <pre style={styles.aiBox}>{aiResponse}</pre>
 
-            <button onClick={() => setShowPopup(false)} style={styles.closeBtn}>
-              Cerrar
+            <textarea
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              style={styles.textareaAI}
+            />
+
+            <button onClick={handleFollowUp} style={styles.button}>
+              Enviar respuesta
+            </button>
+
+            <button
+              onClick={createTicket}
+              style={{ ...styles.button, backgroundColor: "#d60000" }}
+            >
+              🚨 Escalar incidencia
+            </button>
+
+            <button onClick={handleSolved} style={styles.closeBtn}>
+              ✅ Solucionado
             </button>
           </div>
         </div>
@@ -102,32 +232,61 @@ export default function FormPage() {
   );
 }
 
+// =========================
+// 🎨 ESTILOS
+// =========================
 const styles = {
   container: {
-    maxWidth: "600px",
+    maxWidth: "650px",
     margin: "60px auto",
     fontFamily: "Arial",
+    padding: "20px",
   },
+
   title: {
     textAlign: "center",
     marginBottom: "20px",
   },
+
   form: {
     display: "flex",
     flexDirection: "column",
     gap: "10px",
   },
+
   input: {
-    padding: "10px",
+    padding: "12px",
     border: "1px solid #ccc",
-    borderRadius: "6px",
+    borderRadius: "8px",
+    width: "500px",
+    fontSize: "14px",
   },
+
   textarea: {
-    padding: "10px",
+    padding: "12px",
     border: "1px solid #ccc",
-    borderRadius: "6px",
-    minHeight: "120px",
+    borderRadius: "8px",
+    minHeight: "160px",
+    width: "100%",
+    fontSize: "14px",
+    resize: "vertical",
   },
+
+  textareaAI: {
+    padding: "12px",
+    border: "2px solid #000",
+    borderRadius: "12px",
+    minHeight: "180px",
+    width: "100%",
+    marginTop: "10px",
+    backgroundColor: "#fff",
+    color: "#111",
+    fontSize: "14px",
+    outline: "none",
+    resize: "vertical",
+    marginBottom: "15px",
+  },
+
   button: {
     padding: "10px",
     backgroundColor: "#000",
@@ -135,7 +294,9 @@ const styles = {
     border: "none",
     borderRadius: "6px",
     cursor: "pointer",
+    marginBottom: "15px",
   },
+
   overlay: {
     position: "fixed",
     top: 0,
@@ -147,31 +308,36 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
   },
+
   popup: {
     backgroundColor: "#fff",
     padding: "25px",
     borderRadius: "10px",
-    width: "420px",
-    textAlign: "center",
-    maxHeight: "80vh",
+    width: "90%",
+    maxWidth: "500px",
+    maxHeight: "85vh",
     display: "flex",
     flexDirection: "column",
-    color: "#000000",
+    color: "#000",
   },
+
   aiBox: {
-    textAlign: "left",
+    backgroundColor: "#f7f7f7",
+    padding: "10px",
+    borderRadius: "6px",
+    border: "1px solid #ddd",
     whiteSpace: "pre-wrap",
-    marginTop: "10px",
     overflowY: "auto",
-    maxHeight: "50vh",
-    paddingRight: "10px",
+    maxHeight: "300px",
+    marginBottom: "15px",
   },
+
   closeBtn: {
-    marginTop: "15px",
-    padding: "8px 12px",
-    border: "none",
-    backgroundColor: "#000",
+    marginTop: "10px",
+    padding: "10px",
+    backgroundColor: "green",
     color: "#fff",
+    border: "none",
     borderRadius: "6px",
     cursor: "pointer",
   },
