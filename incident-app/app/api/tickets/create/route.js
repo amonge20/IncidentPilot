@@ -1,38 +1,44 @@
+import { saveTicket } from "../../../lib/tickets";
+
 export async function POST(req) {
   try {
     const { user, email, location, conversation } = await req.json();
 
-    // 🧠 Validación simple de abuso
     const text = JSON.stringify(conversation).toLowerCase();
 
-    const badWords = ["idiota", "estúpido", "puta", "mierda"];
-
+    const badWords = ["idiota", "estúpido", "imbecil", "tonto"];
     const isAggressive = badWords.some((w) => text.includes(w));
 
-    if (isAggressive) {
-      return Response.json({
-        success: false,
-        message: "⚠️ Ticket rechazado por comportamiento inapropiado",
-      });
+    let priority = "low";
+
+    if (text.includes("no funciona") || text.includes("caído")) {
+      priority = "medium";
     }
 
-    // 📦 Simulación de ticket SaaS
+    if (text.includes("urgente") || text.includes("crítico")) {
+      priority = "high";
+    }
+
+    if (isAggressive) priority = "high";
+
     const ticket = {
-      id: "TCK-" + Date.now(),
+      id: "INC-" + Date.now(),
       user,
       email,
-      location,
+      location: location?.address || "",
       conversation,
+      priority,
       status: "OPEN",
+      createdAt: new Date().toISOString(),
     };
 
-    console.log("📩 NUEVO TICKET:", ticket);
+    saveTicket(ticket); 
 
     return Response.json({
       success: true,
-      assignedTechnician: "Tech-Support Level 1",
       ticket,
     });
+
   } catch (error) {
     return Response.json({
       success: false,

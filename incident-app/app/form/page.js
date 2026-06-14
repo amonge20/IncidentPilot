@@ -117,6 +117,7 @@ export default function FormPage() {
 
     if (data.success) {
       alert(`🚨 Ticket creado correctamente`);
+      window.location.href = "/admin/incidencias";
 
       setShowPopup(false);
       setConversation([]);
@@ -215,16 +216,21 @@ export default function FormPage() {
               Enviar respuesta
             </button>
 
-            <button
-              onClick={createTicket}
-              style={{ ...styles.button, backgroundColor: "#d60000" }}
-            >
-              🚨 Escalar incidencia
-            </button>
+            <div style={styles.actionsRow}>
+              <button
+                onClick={createTicket}
+                style={styles.escalateBtn}
+              >
+                🚨 Escalar incidencia
+              </button>
 
-            <button onClick={handleSolved} style={styles.closeBtn}>
-              ✅ Solucionado
-            </button>
+              <button
+                onClick={handleSolved}
+                style={styles.closeBtn}
+              >
+                ✅ Solucionado
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -276,7 +282,7 @@ const styles = {
     padding: "12px",
     border: "2px solid #000",
     borderRadius: "12px",
-    minHeight: "180px",
+    Height: "500px",
     width: "100%",
     marginTop: "10px",
     backgroundColor: "#fff",
@@ -332,8 +338,24 @@ const styles = {
     marginBottom: "15px",
   },
 
-  closeBtn: {
+  actionsRow: {
+    display: "flex",
+    gap: "10px",
     marginTop: "10px",
+  },
+
+  escalateBtn: {
+    flex: 1,
+    padding: "10px",
+    backgroundColor: "#d60000",
+    color: "#fff",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer",
+  },
+
+  closeBtn: {
+    flex: 1,
     padding: "10px",
     backgroundColor: "green",
     color: "#fff",
