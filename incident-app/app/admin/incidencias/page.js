@@ -47,6 +47,7 @@ export default function AdminIncidencias() {
           <h3>{t.id}</h3>
 
           <p><b>Usuario:</b> {t.user}</p>
+          <p><b>Empresa:</b> {t.company || "No indicada"}</p>
           <p><b>Email:</b> {t.email}</p>
           <p><b>Ubicación:</b> {t.location}</p>
           <p><b>Prioridad:</b> {t.priority}</p>

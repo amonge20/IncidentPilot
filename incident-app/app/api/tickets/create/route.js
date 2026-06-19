@@ -2,11 +2,11 @@ import { saveTicket } from "../../../lib/tickets";
 
 export async function POST(req) {
   try {
-    const { user, email, location, conversation } = await req.json();
+    const { user, company, email, location, conversation } = await req.json();
 
     const text = JSON.stringify(conversation).toLowerCase();
 
-    const badWords = ["idiota", "estúpido", "imbecil", "tonto"];
+    const badWords = ["idiota", "estúpido", "imbecil", "tonto", "solucionamelo", "solucion"];
     const isAggressive = badWords.some((w) => text.includes(w));
 
     let priority = "low";
@@ -24,6 +24,7 @@ export async function POST(req) {
     const ticket = {
       id: "INC-" + Date.now(),
       user,
+      company, 
       email,
       location: location?.address || "",
       conversation,

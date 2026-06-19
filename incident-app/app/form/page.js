@@ -5,6 +5,7 @@ import { useState } from "react";
 export default function FormPage() {
   const [formData, setFormData] = useState({
     name: "",
+    company: "",
     email: "",
     message: "",
     address: "",
@@ -15,16 +16,17 @@ export default function FormPage() {
   const [loading, setLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
 
-  // =========================
-  // INPUT
-  // =========================
+  // ✅ NUEVO: popup de confirmación
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [confirmText, setConfirmText] = useState("");
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   // =========================
-  // ENVIAR INCIDENCIA A IA
+  // IA SUBMIT
   // =========================
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,6 +37,7 @@ export default function FormPage() {
         role: "user",
         content: `
         Nombre: ${formData.name}
+        Empresa: ${formData.company}
         Email: ${formData.email}
 
         Ubicación:
@@ -65,7 +68,7 @@ export default function FormPage() {
   };
 
   // =========================
-  // FOLLOW UP IA
+  // FOLLOW UP
   // =========================
   const handleFollowUp = async () => {
     if (!formData.message.trim()) return;
@@ -92,12 +95,11 @@ export default function FormPage() {
 
     setAiResponse(data.result);
     setFormData((prev) => ({ ...prev, message: "" }));
-
     setLoading(false);
   };
 
   // =========================
-  // 🚨 ESCALAR INCIDENCIA (TICKET REAL)
+  // 🚨 ESCALAR (SIN REDIRECCIÓN)
   // =========================
   const createTicket = async () => {
     const res = await fetch("/api/tickets/create", {
@@ -105,6 +107,7 @@ export default function FormPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         user: formData.name,
+        company: formData.company,
         email: formData.email,
         location: {
           address: formData.address,
@@ -116,40 +119,42 @@ export default function FormPage() {
     const data = await res.json();
 
     if (data.success) {
-      alert(`🚨 Ticket creado correctamente`);
-      window.location.href = "/admin/incidencias";
+      setConfirmText(`🚨 Ticket creado correctamente: ${data.ticket.id}`);
+      setShowConfirm(true);
 
       setShowPopup(false);
-      setConversation([]);
-      setAiResponse("");
-
-      setFormData({
-        name: "",
-        email: "",
-        message: "",
-        address: "",
-      });
+      resetAll(); // ✅ LIMPIA TODO EL FORMULARIO
     } else {
-      alert(data.message || "No se pudo crear el ticket");
+      setConfirmText("❌ No se pudo crear el ticket");
+      setShowConfirm(true);
     }
   };
 
   // =========================
-  // ✔ SOLUCIONADO
+  // ✔ SOLUCIONADO (SIN REDIRECCIÓN)
   // =========================
   const handleSolved = () => {
-    alert("✅ Incidencia marcada como solucionada");
+    setConfirmText("✅ Incidencia marcada como solucionada");
+    setShowConfirm(true);
 
     setShowPopup(false);
+    resetAll(); // ✅ LIMPIA TODO EL FORMULARIO
+  };
+
+  // =========================
+  // RESETEAR FORMULARIO
+  // =========================
+  const resetAll = () => {
+  setFormData({
+    name: "",
+    company: "",
+    email: "",
+    message: "",
+    address: "",
+  });
+
     setConversation([]);
     setAiResponse("");
-
-    setFormData({
-      name: "",
-      email: "",
-      message: "",
-      address: "",
-    });
   };
 
   return (
@@ -157,38 +162,11 @@ export default function FormPage() {
       <h1 style={styles.title}>Sistema de Incidencias con IA</h1>
 
       <form onSubmit={handleSubmit} style={styles.form}>
-        <input
-          name="name"
-          placeholder="Nombre completo"
-          value={formData.name}
-          onChange={handleChange}
-          style={styles.input}
-        />
-
-        <input
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          style={styles.input}
-        />
-
-        {/* 📍 UBICACIÓN MANUAL */}
-        <textarea
-          name="address"
-          placeholder="Ubicación (ej: Calle Mayor 12, Barcelona)"
-          value={formData.address}
-          onChange={handleChange}
-          style={styles.textarea}
-        />
-
-        <textarea
-          name="message"
-          placeholder="Describe tu incidencia..."
-          value={formData.message}
-          onChange={handleChange}
-          style={styles.textarea}
-        />
+        <input name="name" placeholder="Nombre" value={formData.name} onChange={handleChange} style={styles.input} />
+        <input name="company" placeholder="Empresa (opcional)" value={formData.company} onChange={handleChange} style={styles.input} />
+        <input name="email" placeholder="Email" value={formData.email} onChange={handleChange} style={styles.input} />
+        <textarea name="address" placeholder="Ubicación" value={formData.address} onChange={handleChange} style={styles.textarea} />
+        <textarea name="message" placeholder="Incidencia" value={formData.message} onChange={handleChange} style={styles.textarea} />
 
         <button type="submit" style={styles.button}>
           {loading ? "Procesando..." : "Enviar incidencia"}
@@ -217,18 +195,31 @@ export default function FormPage() {
             </button>
 
             <div style={styles.actionsRow}>
-              <button
-                onClick={createTicket}
-                style={styles.escalateBtn}
-              >
+              <button onClick={createTicket} style={styles.escalateBtn}>
                 🚨 Escalar incidencia
               </button>
 
-              <button
-                onClick={handleSolved}
-                style={styles.closeBtn}
-              >
+              <button onClick={handleSolved} style={styles.closeBtn}>
                 ✅ Solucionado
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* =========================
+          POPUP CONFIRMACIÓN
+      ========================= */}
+      {showConfirm && (
+        <div style={styles.overlay}>
+          <div style={styles.popup}>
+            <h2>📩 Confirmación</h2>
+            <p style={styles.confirmText}>{confirmText}</p>
+            <div style={styles.confirmActions}>
+              <button
+                onClick={() => setShowConfirm(false)}
+                style={styles.button}>
+                Cerrar
               </button>
             </div>
           </div>
@@ -362,5 +353,19 @@ const styles = {
     border: "none",
     borderRadius: "6px",
     cursor: "pointer",
+  },
+
+  /* POPUP DE CONFIRMACION */
+  confirmText: {
+    marginBottom: "20px",
+    fontSize: "15px",
+    lineHeight: "1.5",
+    textAlign: "center",
+  },
+
+  confirmActions: {
+    display: "flex",
+    justifyContent: "center",
+    marginTop: "10px",
   },
 };
