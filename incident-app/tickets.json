@@ -1,123 +1,5 @@
 [
   {
-    "id": "INC-1781468859715",
-    "user": "Aitor Monge Santiago",
-    "email": "aitor@gmail.com",
-    "location": "C/. de Sant Ferran, 53, 08940 Cornellà de Llobregat, Barcelona",
-    "conversation": [
-      {
-        "role": "user",
-        "content": "\n        Nombre: Aitor Monge Santiago\n        Email: aitor@gmail.com\n\n        Ubicación:\n        C/. de Sant Ferran, 53, 08940 Cornellà de Llobregat, Barcelona\n\n        Incidencia:\n        El ordenador de taller no funciona\n        "
-      },
-      {
-        "role": "assistant",
-        "content": "Buena día, Aitor. Me complace ayudarte con el problema del ordenador de taller en Cornellà de Llobregat. Para proceder, necesitaría saber un poco más sobre el problema específico.\n\nPuedes proporcionarme la siguiente información:\n\n- ¿Cuándo notaste que el problema surgió (por ejemplo, durante la noche o en el momento de apagarlo)?\n- ¿Qué tipo de ordenador es (marca, modelo y versión del sistema operativo)?\n- ¿Qué error exacto estás experimentando (pantalla negro, mensaje de error, falta de inicio, etc.)?\n- ¿Has realizado algún cambio o actualización en el ordenador antes de notar el problema?\n- ¿Tienes acceso a la consola de comando o necesitaría configurar una sesión remota para ayudarte?"
-      },
-      {
-        "role": "user",
-        "content": "Bueno, eso paso desde la semana pasada, que estaba pasando inventario y de repente el programa que uso para añadir el stock, me ha dejado de funcionar"
-      },
-      {
-        "role": "assistant",
-        "content": "Entiendo. El problema parece que empezó hace una semana, durante el uso normal del ordenador. Al respecto al programa que usas para añadir el stock, ¿podría proporcionarme alguna información adicional sobre él?\n\n- ¿Cuál es el nombre y la versión del programa que se ha dejado de funcionar?\n- ¿Has intentado abrir el programa de otra manera o desde un lugar diferente?\n- ¿Hay algún mensaje de error que se muestre cuando intentas abrir el programa o realizar alguna acción similar?\n\nTambién me gustaría saber más sobre el ordenador en sí:\n\n- ¿Cuándo fue la última actualización del sistema operativo y del programa de mantenimiento?\n- ¿Hay algún dispositivo de red conectado que pueda estar causando conflictos?\n- ¿Has realizando cualquier tipo de limpieza o desfragmentación del disco duro recientemente?"
-      },
-      {
-        "role": "user",
-        "content": "Se llama SOM, y normalmente solo se abre este programa y nada más. La ultima actualización fue ayer y que yo sepa no he manipulado de manera software el disco duro"
-      },
-      {
-        "role": "assistant",
-        "content": "Entiendo. El SOM es un programa que parece ser exclusivo para el taller.\n\nDado que la última actualización fue ayer y no has realizado ninguna manipulación del disco duro de manera software, es posible que el problema esté relacionado con la actualización misma o con un conflicto con otro componente del sistema.\n\nMe gustaría hacer algunos pasos para intentar resolver el problema:\n\n1. Intentemos restaurar el sistema a una versión anterior a la actualización. ¿Te parece que proceda a intentar restaurar el sistema a una versión anterior a la actualización de ayer?\n2. Si no podemos restaurar el sistema, ¿te parece que intentemos desinstalar el programa SOM y reinstalarlo de nuevo para ver si podemos reproducir el problema?\n3. Si ninguno de estos pasos resuelve el problema, ¿te parece que debamos buscar un conflicto con otro componente del sistema o con algún dispositivo de hardware conectado?\n\n¿Cuál crees que sería el mejor paso a seguir?"
-      },
-      {
-        "role": "user",
-        "content": "Me gustaria saltarme el tercer paso"
-      },
-      {
-        "role": "assistant",
-        "content": "Entiendo. No me gustaría adelantar posibles causas de problemas que no hemos explorado aún.\n\nPor lo tanto, procedemos con los pasos 1 y 2:\n\n1. Intentemos restaurar el sistema a una versión anterior a la actualización de ayer. Necesitaré saber si el sistema tiene un sistema de backup o si hay alguna otra forma de restaurar el sistema a un estado anterior.\n2. Si no podemos restaurar el sistema, ¿te parece que intentemos desinstalar el programa SOM y reinstalarlo de nuevo para ver si podemos reproducir el problema?\n\n¿Podrías verificar qué opción de restauración tiene disponible el sistema? Si no hay opción de restauración, ¿podrías proporcionarme más información sobre el sistema y los programas instalados para que pueda ayudarte a encontrar una posible solución?"
-      },
-      {
-        "role": "user",
-        "content": "A ver, no hay ninguna opcion pero dice algo de reiniciar"
-      },
-      {
-        "role": "assistant",
-        "content": "Entiendo. Si no hay opción de restauración, reiniciar el sistema puede ser una buena solución. Sin embargo, deberíamos intentar reinstalar el programa SOM para ver si se reproduce el problema.\n\nVoy a guiarte a través de los pasos para reinstalar el programa SOM:\n\n1. Primero, cerraremos el programa SOM (si lo está ejecutando).\n2. Luego, iremos a la sección de programas del sistema y buscaremos el programa SOM.\n3. Si lo encontramos, lo desinstalaremos.\n4. Posteriormente, iremos a la página web oficial del programa SOM y descargaremos la última versión del programa.\n5. Finalmente, instalaríamos el programa SOM nuevamente.\n\n¿Te parece que sigamos estos pasos?"
-      },
-      {
-        "role": "user",
-        "content": "Adelante"
-      },
-      {
-        "role": "assistant",
-        "content": "Vamos a intentar desinstalar el programa SOM. Para hacer esto, necesitaré guiarte a través de los pasos en tu sistema.\n\n1. Primero, cerraremos el programa SOM (si lo está ejecutando).\n * ¿Podrías cerrar el programa SOM?\n2. Luego, iremos a la sección de programas del sistema y buscaremos el programa SOM.\n * Para acceder a la sección de programas, ¿puedes ir al menú \"Inicio\" y buscar \"Panel de Control\"? Una vez allí, buscarás la opción \"Programas y características\".\n3. ¿Podrías buscar el programa SOM en la lista de programas instalados y seleccionarlo?\n4. Una vez seleccionado el programa SOM, buscarás una opción para desinstalarlo. ¿Puedes ver esa opción?\n\n¿Qué te dice el sistema al buscar el programa SOM o desinstalarlo?"
-      },
-      {
-        "role": "user",
-        "content": "Que no encuentra el desinstalador y que no se puede reinstalar"
-      },
-      {
-        "role": "assistant",
-        "content": "Entiendo. Si no se puede desinstalar el programa SOM y tampoco se puede reinstalar, es posible que el sistema esté bloqueado o dañado.\n\nEn este caso, necesitaría sugerir otras soluciones, pero antes de hacerlo, quiero asegurarme de que no hayamos pasado por alto algún paso importante.\n\n¿Podrías verificar si el programa SOM está marcado como \"propietario\" o \"instalado\" en la sección de programas del sistema? Algunos programas pueden tener una propiedad exclusiva que pueda evitar que se desinstale o reinstale correctamente.\n\nSi no encuentra esa propiedad, creo que sería mejor explorar otras soluciones, como REQUIERE ESCALADO, para que un especialista pueda examinar el sistema en más detalle y brindar soluciones más específicas. ¿Te parece que sigamos con ese proceso?"
-      }
-    ],
-    "priority": "medium",
-    "status": "OPEN",
-    "createdAt": "2026-06-14T20:27:39.715Z"
-  },
-  {
-    "id": "INC-1781469394754",
-    "user": "Paco Sanchez Jimenez",
-    "email": "paco@gmail.com",
-    "location": "Inet IT SL",
-    "conversation": [
-      {
-        "role": "user",
-        "content": "\n        Nombre: Paco Sanchez Jimenez\n        Email: paco@gmail.com\n\n        Ubicación:\n        Inet IT SL\n\n        Incidencia:\n        No me funciona el ordenador\n        "
-      },
-      {
-        "role": "assistant",
-        "content": "Buenos días Paco. Gracias por contactarte con nosotros. Para poder ajudarte, necesitaría saber más detalles sobre el problema que estás experimentando con tu ordenador.\n\n¿Podrías proporcionarme la siguiente información?\n\n- ¿Qué tipo de ordenador es (portátil o de escritorio)?\n- ¿Cuándo comenzó a funcionar de manera inesperada?\n- ¿Qué mensaje de error o comportamiento inusual estás experimentando?\n- ¿Has realizado alguna actualización de software o cambiado configuraciones recientemente?\n\nCon esta información, podré ayudarte a analizar el problema y buscar una solución."
-      },
-      {
-        "role": "user",
-        "content": "No me da ningun tipo de error, si no que se enciende pero no da video. He probado de cambiar, monitor, cables, etc. Y nada funciona"
-      },
-      {
-        "role": "assistant",
-        "content": "Entiendo mejor el problema. Si el ordenador se enciende pero no muestra ningún vídeo, es posible que el problema esté relacionado con la tarjeta gráfica o con el sistema operativo.\n\nAntes de profundizar en la solución, necesitaría saber más detalles sobre el hardware del ordenador. ¿Podrías proporcionarme la siguiente información?\n\n- ¿Cuál es la marca y modelo del procesador (CPU)?\n- ¿Cuál es la marca y modelo de la tarjeta gráfica?\n- ¿Cuál es la memoria RAM del ordenador?\n- ¿Qué sistema operativo tiene instalado (Windows, Linux, macOS)?\n\nAdemás, me gustaría saber:\n\n- ¿Has probado a encender el ordenador en modo seguro (si es que es posible)?\n- ¿Has intentado a encender el ordenador con el teclado y ratón desconectados?\n\nCon esta información, podré ayudarte a diagnosticar el problema y buscar una solución."
-      },
-      {
-        "role": "user",
-        "content": "Es un windows, pero los metodos que tu dices, no he podido probar"
-      },
-      {
-        "role": "assistant",
-        "content": "Entiendo que no has podido probar esos métodos. En ese caso, voy a seguir adelante con la posible solución.\n\nDado que el ordenador se enciende pero no muestra vídeo, es posible que el problema esté relacionado con la tarjeta gráfica o con la placa base. Para poder ayudarte, necesitaría saber si has realizado algún tipo de actualización o cambio en el hardware del ordenador recientemente.\n\n¿Has realizado alguna de las siguientes acciones en las últimas semanas?\n\n- Actualización del controlador de hardware\n- Cambio de la placa base\n- Adición de nueva hardware (tarjeta gráfica, memoria RAM, etc.)\n- Uso de herramientas de mantenimiento o reparación del sistema\n\nSi has realizado alguna de estas acciones, es posible que el problema esté relacionado con ella. De lo contrario, es posible que debamos considerar la posibilidad de que el problema esté con la propia placa base o con la tarjeta gráfica.\n\n¿Podrías decirme si has realizado alguna de estas acciones en las últimas semanas?"
-      },
-      {
-        "role": "user",
-        "content": "Voy a mirar si tengo herramientas para poder ver el hardware de mi equipo, pero si no tuviera. Tendreis que enviar un tecnico a que revise el equipo"
-      },
-      {
-        "role": "assistant",
-        "content": "Entiendo. Hay varias herramientas disponibles para ver la información del hardware del equipo, como por ejemplo:\n\n* Device Manager (en Windows, puedes presionar la tecla Windows + X y seleccionar \"Device Manager\")\n* System Information (en Windows, puedes presionar la tecla Windows + R y escribir \"msinfo32\")\n* Task Manager (en Windows, puedes presionar la tecla Ctrl + Shift + Esc)\n\nSi no tienes acceso a estas herramientas, te puedo pedir que intentes contactar con el equipo de soporte de Inet IT SL para que te puedan ayudar a verificar la información del hardware. De lo contrario, sí, sería necesaria la visita de un técnico para verificar y analizar el equipo.\n\nAntes de solicitar una visita de técnico, quiero asegurarme de que hemos agotado todas las posibilidades de diagnóstico remoto. ¿Podrías decirme si tienes alguna otra información adicional que pueda ayudarme a entender mejor el problema?"
-      },
-      {
-        "role": "user",
-        "content": "No tengo ninguna información adicional"
-      },
-      {
-        "role": "assistant",
-        "content": "Entiendo. En ese caso, considero que hemos agotado todas las posibilidades de diagnóstico remoto.\n\nLa incidencia no se ha podido resolver de manera remota. Es posible que el problema esté relacionado con la hardware del equipo, y requiera una visión directa del equipo para poder identificar y solucionar la causa del problema.\n\nPor lo tanto, REQUIERE ESCALADO. Se recomienda que se envíe un técnico a revisar el equipo en persona. El técnico podrá analizar el equipo, identificar la causa del problema y proporcionar una solución adecuada.\n\nSe le informará al cliente que un técnico se acercará a revisar el equipo lo antes posible."
-      }
-    ],
-    "priority": "low",
-    "status": "OPEN",
-    "createdAt": "2026-06-14T20:36:34.754Z"
-  },
-  {
     "id": "INC-1781901091831",
     "user": "Aitor Monge Santiago",
     "company": "Inet IT Services",
@@ -308,5 +190,57 @@
     "priority": "high",
     "status": "OPEN",
     "createdAt": "2026-06-19T21:50:49.682Z"
+  },
+  {
+    "id": "INC-1782140317935",
+    "user": "Didac Pujol",
+    "company": "",
+    "email": "Didac@gmail.com",
+    "location": "C/ Arístides Maillol s/n, 08028 Barcelona",
+    "conversation": [
+      {
+        "role": "user",
+        "content": "\n        Nombre: Didac Pujol\n        Empresa: \n        Email: Didac@gmail.com\n\n        Ubicación:\n        C/ Arístides Maillol s/n, 08028 Barcelona\n\n        Incidencia:\n        Tenemos un problema con el ordenador que gestiona las camaras del estadio del camp nou\n        "
+      },
+      {
+        "role": "assistant",
+        "content": "Lo sentimos, Didac. Por favor, proporciona más información sobre el problema que estás experimentando con el ordenador que gestiona las cámaras del Estadio del Camp Nou. ¿Puedes decirme cuáles son los síntomas específicos que estás observando?\n\nTambién sería útil saber si has notificado a alguien más sobre este problema, y si se ha producido algún error o mensaje de error en particular."
+      },
+      {
+        "role": "user",
+        "content": "Pues que tenemos en el ordenador tenemos una aplicacion en que se gestionan las camaras de los drones y todo eso"
+      },
+      {
+        "role": "assistant",
+        "content": "Así que se trata de una aplicación de gestión de cámaras de drones. ¿Podrías decirme si la aplicación está mostrando algún error o comportamiento anormal? Por ejemplo, ¿no se están actualizando los feed de las cámaras, o no se está permitiendo acceder a la configuración de las cámaras?\n\nAdemás, ¿cuál es el sistema operativo y la versión de la aplicación que estás usando en ese ordenador? Esto puede ayudarme a tener una mejor idea del contexto del problema."
+      },
+      {
+        "role": "user",
+        "content": "No se, hace cosas raras y eso que ya actualize el firmware y los controladores del dispositivo"
+      },
+      {
+        "role": "assistant",
+        "content": "Es posible que el problema persista después de actualizar el firmware y los controladores del dispositivo. Esto sugiere que puede haber un conflicto o compatibilidad con otra parte del sistema.\n\n¿Puedes decirme si otros dispositivos o aplicaciones en el ordenador están funcionando correctamente? Y si has hecho algún cambio reciente en la configuración del sistema o en la aplicación de gestión de cámaras?\n\nTambién sería útil saber si hay algún registro o log del error en la aplicación o en el sistema operativo que pueda proporcionar más información sobre lo que está sucediendo."
+      },
+      {
+        "role": "user",
+        "content": "De momento este problema solo afecta a todas las camaras drones. Y en 2 dias tenemos un partido de futbol"
+      },
+      {
+        "role": "assistant",
+        "content": "Entiendo que el problema solo afecta a las cámaras drones y que es crítico debido al partido de fútbol que se avecina.\n\nNecesito saber si hay alguna forma de falla o error en el software de la aplicación que gestiona las cámaras drones. ¿Puedes entrar en la aplicación y decirme si hay algún mensaje de error o alerta que se esté mostrando?\n\nTambién sería útil saber si has intentado restaurar la configuración de la aplicación a su estado predeterminado o si has intentado reiniciar el sistema operativo para ver si se resuelve el problema.\n\n¿Podrías proporcionarme la versión exacta de la aplicación y del sistema operativo que estás utilizando?"
+      },
+      {
+        "role": "user",
+        "content": "No he podido saber toda esa informacion en que me pides"
+      },
+      {
+        "role": "assistant",
+        "content": "No hay problema, Didac. Es importante que me proporciones la información que necesito para intentar resolver el problema. Sin embargo, debido a la urgencia del partido de fútbol que se avecina, creo que es necesario que busque asistencia adicional.\n\nREQUIERE ESCALADO\n\nNecesitaré comunicarme con nuestro equipo de soporte técnico especializado en sistemas de seguridad y monitoreo de vídeo para que puedan asistirte en este problema crítico. Por favor, espera a que se pongan en contacto contigo con una solución."
+      }
+    ],
+    "priority": "high",
+    "status": "OPEN",
+    "createdAt": "2026-06-22T14:58:37.935Z"
   }
 ]

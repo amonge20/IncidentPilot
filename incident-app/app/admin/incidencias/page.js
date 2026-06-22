@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 
 export default function AdminIncidencias() {
   const [tickets, setTickets] = useState([]);
+  const [selectedTicket, setSelectedTicket] = useState(null);
 
   useEffect(() => {
-  fetch("/api/tickets/list")
-    .then((res) => {
-      if (!res.ok) throw new Error("Error en API");
-      return res.json();
-    })
+    fetch("/api/tickets/list")
+      .then((res) => {
+        if (!res.ok) throw new Error("Error en API");
+        return res.json();
+      })
       .then((data) => setTickets(data))
       .catch((err) => {
         console.error("Error cargando tickets:", err);
@@ -29,8 +30,21 @@ export default function AdminIncidencias() {
     }
   };
 
+  const deleteTicket = async (id) => {
+    const confirmed = window.confirm("¿Seguro que quieres eliminar la incidencia?");
+    if (!confirmed) return;
+
+    await fetch("/api/tickets/delete", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    });
+
+    setTickets((prev) => prev.filter((t) => t.id !== id));
+  };
+
   return (
-    <div style={{ padding: "30px" }}>
+    <div style={styles.container}>
       <h1>📋 Incidencias</h1>
 
       {tickets.map((t) => (
@@ -38,10 +52,11 @@ export default function AdminIncidencias() {
           key={t.id}
           style={{
             borderLeft: `8px solid ${getColor(t.priority)}`,
-            padding: "15px",
-            marginBottom: "15px",
-            background: "#fff",
-            borderRadius: "8px",
+            padding: "20px",
+            marginBottom: "20px",
+            backgroundColor: "#fff",
+            borderRadius: "10px",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
           }}
         >
           <h3>{t.id}</h3>
@@ -49,15 +64,130 @@ export default function AdminIncidencias() {
           <p><b>Usuario:</b> {t.user}</p>
           <p><b>Empresa:</b> {t.company || "No indicada"}</p>
           <p><b>Email:</b> {t.email}</p>
-          <p><b>Ubicación:</b> {t.location}</p>
           <p><b>Prioridad:</b> {t.priority}</p>
 
-          <h4>Conversación</h4>
-          <pre style={{ whiteSpace: "pre-wrap" }}>
-            {JSON.stringify(t.conversation, null, 2)}
-          </pre>
+          <div style={styles.actions}>
+            <button
+              style={styles.viewBtn}
+              onClick={() => setSelectedTicket(t)}
+            >
+              👁 Ver
+            </button>
+
+            <button
+              style={styles.deleteBtn}
+              onClick={() => deleteTicket(t.id)}
+            >
+              🗑 Eliminar
+            </button>
+          </div>
         </div>
       ))}
+
+      {/* POPUP DETALLE */}
+      {selectedTicket && (
+        <div style={styles.overlay}>
+          <div style={styles.modal}>
+            <h2>{selectedTicket.id}</h2>
+
+            <p><b>Usuario:</b> {selectedTicket.user}</p>
+            <p><b>Empresa:</b> {selectedTicket.company || "No indicada"}</p>
+            <p><b>Email:</b> {selectedTicket.email}</p>
+            <p><b>Ubicación:</b> {selectedTicket.location}</p>
+
+            <h3>Incidencia</h3>
+
+            <pre style={styles.chat}>
+              {JSON.stringify(selectedTicket.conversation, null, 2)}
+            </pre>
+
+            <button style={styles.closeBtn} onClick={() => setSelectedTicket(null)}>
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+
+// =========================
+// 🎨 ESTILOS
+// =========================
+const styles = {
+  container: {
+    padding: "30px",
+    backgroundColor: "#f4f6f8",
+    minHeight: "100vh",
+    color: "#111",
+    border: "2px black",
+  },
+
+  actions: {
+    display: "flex",
+    gap: "10px",
+    marginTop: "12px",
+  },
+
+  viewBtn: {
+    padding: "8px 14px",
+    backgroundColor: "#1976d2",
+    color: "#fff",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer",
+    fontWeight: "bold",
+  },
+
+  deleteBtn: {
+    padding: "8px 14px",
+    backgroundColor: "#d60000",
+    color: "#fff",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer",
+    fontWeight: "bold",
+  },
+
+  overlay: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0,0,0,0.5)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  modal: {
+    backgroundColor: "#fff",
+    padding: "25px",
+    borderRadius: "10px",
+    width: "90%",
+    maxWidth: "700px",
+    color: "#111",
+  },
+
+  chat: {
+    whiteSpace: "pre-wrap",
+    backgroundColor: "#ffffff",
+    color: "#111",
+    padding: "12px",
+    borderRadius: "6px",
+    border: "1px solid #ddd",
+    maxHeight: "300px",
+    overflowY: "auto",
+  },
+
+  closeBtn: {
+    marginTop: "15px",
+    padding: "10px 14px",
+    backgroundColor: "green",
+    color: "#fff",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer",
+  },
+};
