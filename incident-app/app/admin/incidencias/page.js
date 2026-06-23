@@ -95,11 +95,38 @@ export default function AdminIncidencias() {
             <p><b>Email:</b> {selectedTicket.email}</p>
             <p><b>Ubicación:</b> {selectedTicket.location}</p>
 
-            <h3>Incidencia</h3>
+            <h3 style={{
+              marginTop: "20px",
+              marginBottom: "15px",
+              }}>
+                💬 Conversación</h3>
 
-            <pre style={styles.chat}>
-              {JSON.stringify(selectedTicket.conversation, null, 2)}
-            </pre>
+            <div style={styles.chat}>
+              {selectedTicket.conversation?.map((msg, index) => (
+                <div
+                  key={index}
+                  style={{
+                    marginBottom: "15px",
+                  }}
+                >
+                  <strong>
+                    {msg.role === "user"
+                      ? `${selectedTicket.user} (Usuario)`
+                      : "IA"}
+                  </strong>
+
+                  <div
+                    style={{
+                      marginTop: "5px",
+                      marginLeft: "10px",
+                      whiteSpace: "pre-wrap",
+                    }}
+                  >
+                    {msg.content}
+                  </div>
+                </div>
+              ))}
+            </div>
 
             <button style={styles.closeBtn} onClick={() => setSelectedTicket(null)}>
               Cerrar
