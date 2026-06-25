@@ -88,66 +88,6 @@
     "createdAt": "2026-06-19T21:14:01.006Z"
   },
   {
-    "id": "INC-1781904810140",
-    "user": "Huerto Vegetales",
-    "company": "Sermicro Digital",
-    "email": "soyunhuerto@sersoy.com",
-    "location": "Carrer Veneçuela 87, Carrer de l'Agricultura, 89, 08019 Barcelona",
-    "conversation": [
-      {
-        "role": "user",
-        "content": "\nNombre: Huerto Vegetales\nEmpresa: Sermicro Digital\nEmail: soyunhuerto@sersoy.com\n\nUbicación:\nCarrer Veneçuela 87, Carrer de l'Agricultura, 89, 08019 Barcelona\n\nIncidencia:\nLa aplicacion de remedy no nos funciona, tenemos el servidor caido y no podemos asignar incidencias\n        "
-      },
-      {
-        "role": "assistant",
-        "content": "Gracias por informarme sobre la incidencia. Para empezar, quiero asegurarme de que tengo toda la información necesaria. ¿La aplicación de Remedios que está configurada en el servidor afectado es la misma que la que se utiliza en todos los servidores de la empresa Sermicro Digital? \n\nAdemás, puedo ver en mi panel que la ubicación del servidor es un entorno público. ¿Se trata de un servidor en la nuvem, o es un servidor físico que se encuentra en la sucursales Sermicro Digital en Barcelona?"
-      },
-      {
-        "role": "user",
-        "content": "A ver, antes usabamos Jira que es una aplicacion de ticketing pero hemos decidido movernos con remedy, en principio eso se gestiona atraves de la pagina web del servidor y no tenemos ningun permiso para poder acceder"
-      },
-      {
-        "role": "assistant",
-        "content": "Entiendo. La transición a Remedy de Jira parece haber creado este problema. ¿Podrías proporcionarme más información sobre la versión de Remedy que estáis utilizando y cómo se encuentra configurada actualmente? \n\nTambién me gustaría saber si hay algún mensaje de error en la página web de Remedy que indique qué está causando el problema. Algo como \"Acceso denegado\", \"Servidor caído\" o un código de error específico.\n\nAdemás, ¿han ocurrido cambios recientes en la configuración del servidor, en la red o en la infraestructura de la empresa que puedan estar relacionadas con el problema?"
-      },
-      {
-        "role": "user",
-        "content": "Pone un error 500, \"Que no se puede acceder a la pagina web\""
-      },
-      {
-        "role": "assistant",
-        "content": "El error 500 generalmente indica que hay un problema en el servidor que impide mostrar la página web. Esto podría ser causado por una configuración incorrecta, un problema de seguridad, una error en la base de datos o muchas otras razones.\n\nQuiero hacer algunas preguntas para Intentar averiguar más sobre la situación. ¿Puedes decirme que tipo de servidor es el que está ejecutando Remedy? ¿Es un servidor Windows, Linux o de algún otro tipo?\n\nTambién me gustaría saber que tan antiguo es el servidor y que ha ocurrido en los últimos días que pueda estar relacionado con el problema.\n\nAdemás, ¿hay algún registro en los errores del servidor que pueda ayudarme a entender mejor qué está causando el error 500?"
-      },
-      {
-        "role": "user",
-        "content": "Es un windows pero no sabemos que version tiene"
-      },
-      {
-        "role": "assistant",
-        "content": "La falta de información sobre la versión del servidor es un poco difícil de trabajar. Me gustaría pedirle que intente identificar si encuentra alguna información relacionada con el sistema operativo del servidor, como un archivo de versión o algún comando en la consola que pueda dar pistas sobre la versión.\n\nMientras tanto, puedo intentar algunas cosas desde aquí. Puedo consultar la base de datos de errores de la empresa para ver si hay algún patrón o algo que pueda estar relacionado con el problema.\n\nSin embargo, voy a tener que decirle que si no podemos determinar la versión del servidor, será difícil diagnosticar y solucionar el problema.\n\n¿Podría tratar de verificar en el servidor si hay algún registro de errores en el evento del sistema de Windows que pueda tener información relacionada con el problema?\n\nOtra cosa, ¿qué tan pronto pudo entrar en vigor este problema? ¿Fue de repente o gradual?"
-      },
-      {
-        "role": "user",
-        "content": "Es que no lo se"
-      },
-      {
-        "role": "assistant",
-        "content": "Entiendo. No hay problema. En ese caso, voy a intentar seguir adelante con lo que tenemos.\n\nComo el problema parece estar relacionado con el servidor en sí y no con la aplicación Remedy específicamente, voy a pedirle que intente verificar si el servidor está en modo de mantenimiento o si hay alguna restricción en la red que pueda estar bloqueando el acceso a la página web.\n\nSi no encuentra nada, voy a decirle que la situación requiere escalado.\n\n¿Podría tratar de ver si puede encontrar algún registro de un evento reciente en el servidor que pueda tener algo que ver con el problema?"
-      },
-      {
-        "role": "user",
-        "content": "No me deja acceder, esta bloqueado"
-      },
-      {
-        "role": "assistant",
-        "content": "REQUIERE ESCALADO.\n\nMe temo que no podemos resolver el problema de la forma en que queríamos. La falta de acceso al servidor y la imposibilidad de obtener más información hace que sea muy difícil diagnosticar y solucionar el problema.\n\nEn este caso, creo que sería mejor involucrar a alguien con permisos más altos o a un equipo de apoyo que puedan acceder al servidor y ayudarnos a resolver el problema. Les enviaré un mensaje para que puedan ayudar a resolver la situación."
-      }
-    ],
-    "priority": "high",
-    "status": "OPEN",
-    "createdAt": "2026-06-19T21:33:30.140Z"
-  },
-  {
     "id": "INC-1781905849682",
     "user": "Aitor Monge Santiago",
     "company": "Lemon Computer SL",
@@ -192,55 +132,48 @@
     "createdAt": "2026-06-19T21:50:49.682Z"
   },
   {
-    "id": "INC-1782140317935",
-    "user": "Didac Pujol",
-    "company": "",
-    "email": "Didac@gmail.com",
-    "location": "C/ Arístides Maillol s/n, 08028 Barcelona",
+    "id": "INC-1782402547365",
+    "user": "Aitor Monge Santiago",
+    "company": "Inet IT Services",
+    "email": "aitor@gmail.com",
+    "phone": "123456789",
+    "location": "C/. de Sant Ferran, 53, 08940 Cornellà de Llobregat, Barcelona",
     "conversation": [
       {
         "role": "user",
-        "content": "\n        Nombre: Didac Pujol\n        Empresa: \n        Email: Didac@gmail.com\n\n        Ubicación:\n        C/ Arístides Maillol s/n, 08028 Barcelona\n\n        Incidencia:\n        Tenemos un problema con el ordenador que gestiona las camaras del estadio del camp nou\n        "
+        "content": "\n        Nombre: Aitor Monge Santiago\n        Empresa: Inet IT Services\n        Email: aitor@gmail.com\n        Teléfono: 123456789\n\n        Ubicación:\n        C/. de Sant Ferran, 53, 08940 Cornellà de Llobregat, Barcelona\n\n        Incidencia:\n        Tengo un Windows 11, lo actualize y me salta un pantallazo azul, he buscado el codigo de error, he utilizado herramientas de hardware, todo parece estar bien. He probado de remaquetar el equipo y me sigue fallando\n        "
       },
       {
         "role": "assistant",
-        "content": "Lo sentimos, Didac. Por favor, proporciona más información sobre el problema que estás experimentando con el ordenador que gestiona las cámaras del Estadio del Camp Nou. ¿Puedes decirme cuáles son los síntomas específicos que estás observando?\n\nTambién sería útil saber si has notificado a alguien más sobre este problema, y si se ha producido algún error o mensaje de error en particular."
+        "content": "Gracias por reportar la incidencia, Aitor. Me parece que hay varios detalles que necesito para poder investigar más a fondo.\n\n1. ¿Cuál es el código de error que te muestra el pantallazo azul? Esto podría ayudarme a identificar la causación específica del problema.\n2. ¿A qué versión se actualizó el Windows 11? Es importante conocer la versión anterior y la actual para evitar conflictos o problemas de compatibilidad.\n3. ¿Has realizado algún cambio en el hardware del equipo o hay algún componentes nuevos que puedan estar causando el problema?\n4. Cuando has remaquetado el equipo, ¿has perdido algún archivo o dato importante? ¿Has tenido que configurar algo de nuevo?\n\nPor favor, proporciona más detalles sobre la situación para que pueda ayudarte a encontrar una solución."
       },
       {
         "role": "user",
-        "content": "Pues que tenemos en el ordenador tenemos una aplicacion en que se gestionan las camaras de los drones y todo eso"
+        "content": "Me sale este codigo de error \"0x0000000A\", se actualizo a la 25h2 o como se llame y la anterior creo que fue la 24h2. No he podido manipular el hardware y cuando remaqueto el equipo antes de que salga este error, pues que me lo guarde en el drive"
       },
       {
         "role": "assistant",
-        "content": "Así que se trata de una aplicación de gestión de cámaras de drones. ¿Podrías decirme si la aplicación está mostrando algún error o comportamiento anormal? Por ejemplo, ¿no se están actualizando los feed de las cámaras, o no se está permitiendo acceder a la configuración de las cámaras?\n\nAdemás, ¿cuál es el sistema operativo y la versión de la aplicación que estás usando en ese ordenador? Esto puede ayudarme a tener una mejor idea del contexto del problema."
+        "content": "El código de error \"0x0000000A\" se asocia con un problema de inestabilidad en el kernel del sistema. Esta error suele ser causado por una configuración incorrecta del BIOS o por un problema de hardware.\n\nEn cuanto al actualizado del sistema, la versión 25h2 es una actualización de seguridad reciente de Windows 11. Es posible que esta actualización haya causado problemas con los drivers de hardware o con la configuración del sistema.\n\nPara avanzar en la resolución de este problema, te pediría que intentes realizar los siguientes pasos:\n\n1. ¿Puedes entrar en la BIOS del equipo y verificar si hay alguna configuración que haya sido cambiada o deshabilitada después de la actualización?\n2. ¿Has intentado deshabilitar y volver a habilitar los servicios de arranque del sistema para verificar si hay algún problema con la configuración de inicio?\n3. ¿Has intentado realizar un escaneo de seguridad con un antivrus actualizado para verificar si hay algún malware que pueda estar causando el problema?\n\nAgrega más información sobre lo que has intentado para resolver este problema, así que puedo ayudarte mejor."
       },
       {
         "role": "user",
-        "content": "No se, hace cosas raras y eso que ya actualize el firmware y los controladores del dispositivo"
+        "content": "He intentado entrar pero no puedo, y de habilitar servicios, no lo he podido hacer tampoco"
       },
       {
         "role": "assistant",
-        "content": "Es posible que el problema persista después de actualizar el firmware y los controladores del dispositivo. Esto sugiere que puede haber un conflicto o compatibilidad con otra parte del sistema.\n\n¿Puedes decirme si otros dispositivos o aplicaciones en el ordenador están funcionando correctamente? Y si has hecho algún cambio reciente en la configuración del sistema o en la aplicación de gestión de cámaras?\n\nTambién sería útil saber si hay algún registro o log del error en la aplicación o en el sistema operativo que pueda proporcionar más información sobre lo que está sucediendo."
+        "content": "El hecho de que no puedas acceder a la BIOS y no puedas habilitar/habilitar servicios de arranque del sistema sugiere que hay un problema de fondo con el sistema que no permite que estas funciones sean accesibles.\n\nEn este caso, te sugiero que intentes realizar un proceso de \"boot en modo de seguridad\" (ver detalles a continuación) para verificar si el problema está relacionado con una configuración de inicio anormal.\n\n**Modo de seguridad:**\n\nPara entrar en el modo de seguridad, necesitarás reiniciar el equipo y presionar una combinación de teclas específicas durante la carga del sistema. Dependiendo del equipo, la combinación de teclas puede variar, pero algunas opciones comunes son:\n\n- Tecla F2 (reemplazo por la tecla del equipo)\n- F12\n- Del\n- Esc\n\nUna vez que hayas ingresado al modo de seguridad, te mostrará el menú de opciones de inicio del sistema. Busca las opciones que permitan deshabilitar o reinstaurar la configuración de inicio al valor predeterminado.\n\n**Nota:** Si no puedes acceder al modo de seguridad, es posible que debamos considerar otras opciones de resolución de problemas.\n\n¿Has intentado realizar el proceso de \"boot en modo de seguridad\" que te describí anteriormente?"
       },
       {
         "role": "user",
-        "content": "De momento este problema solo afecta a todas las camaras drones. Y en 2 dias tenemos un partido de futbol"
+        "content": "Es que no puedo acceder porque el equipo que tengo es de empresa y no me han proporcionado contraseña para acceder en ella"
       },
       {
         "role": "assistant",
-        "content": "Entiendo que el problema solo afecta a las cámaras drones y que es crítico debido al partido de fútbol que se avecina.\n\nNecesito saber si hay alguna forma de falla o error en el software de la aplicación que gestiona las cámaras drones. ¿Puedes entrar en la aplicación y decirme si hay algún mensaje de error o alerta que se esté mostrando?\n\nTambién sería útil saber si has intentado restaurar la configuración de la aplicación a su estado predeterminado o si has intentado reiniciar el sistema operativo para ver si se resuelve el problema.\n\n¿Podrías proporcionarme la versión exacta de la aplicación y del sistema operativo que estás utilizando?"
-      },
-      {
-        "role": "user",
-        "content": "No he podido saber toda esa informacion en que me pides"
-      },
-      {
-        "role": "assistant",
-        "content": "No hay problema, Didac. Es importante que me proporciones la información que necesito para intentar resolver el problema. Sin embargo, debido a la urgencia del partido de fútbol que se avecina, creo que es necesario que busque asistencia adicional.\n\nREQUIERE ESCALADO\n\nNecesitaré comunicarme con nuestro equipo de soporte técnico especializado en sistemas de seguridad y monitoreo de vídeo para que puedan asistirte en este problema crítico. Por favor, espera a que se pongan en contacto contigo con una solución."
+        "content": "En ese caso, no tienes acceso a la BIOS del equipo debido a la configuración de seguridad de la empresa. En este caso, debemos buscar otras formas de diagnosticar y resolver el problema.\n\nTe sugiero que comuniques con el departamento de TI de la empresa y solicites la contraseña para acceder a la BIOS o solicites ayuda para diagnosticar y resolver el problema. Es posible que tengan herramientas o técnicas específicas para acceder a la configuración del equipo y solucionar el problema.\n\nSi no puedes obtener la contraseña o la ayuda del departamento de TI, puedo seguir investigando con los detalles que tienes disponible. En este caso, te sugiero que intentes realizar los siguientes pasos:\n\n1. Deshabilita cualquier software de seguridad que pueda estar bloqueeando el acceso a la BIOS.\n2. Revisa si hay algún problema con los drivers de hardware que puedan estar causando el problema.\n3. Realiza un escaneo de seguridad con un antivrus actualizado para verificar si hay algún malware que pueda estar causando el problema.\n\n¿Puedes intentar realizar alguno de estos pasos?"
       }
     ],
     "priority": "high",
     "status": "OPEN",
-    "createdAt": "2026-06-22T14:58:37.935Z"
+    "createdAt": "2026-06-25T15:49:07.365Z"
   }
 ]

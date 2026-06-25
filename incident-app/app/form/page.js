@@ -7,6 +7,7 @@ export default function FormPage() {
     name: "",
     company: "",
     email: "",
+    phone: "",
     message: "",
     address: "",
   });
@@ -39,6 +40,7 @@ export default function FormPage() {
         Nombre: ${formData.name}
         Empresa: ${formData.company}
         Email: ${formData.email}
+        Teléfono: ${formData.phone || "No indicado"}
 
         Ubicación:
         ${formData.address}
@@ -109,6 +111,7 @@ export default function FormPage() {
         user: formData.name,
         company: formData.company,
         email: formData.email,
+        phone: formData.phone, 
         location: {
           address: formData.address,
         },
@@ -149,6 +152,7 @@ export default function FormPage() {
     name: "",
     company: "",
     email: "",
+    phone:"",
     message: "",
     address: "",
   });
@@ -165,6 +169,7 @@ export default function FormPage() {
         <input name="name" placeholder="Nombre" value={formData.name} onChange={handleChange} style={styles.input} />
         <input name="company" placeholder="Empresa (opcional)" value={formData.company} onChange={handleChange} style={styles.input} />
         <input name="email" placeholder="Email" value={formData.email} onChange={handleChange} style={styles.input} />
+        <input name="phone" placeholder="Teléfono de contacto" value={formData.phone} onChange={handleChange} style={styles.input}/>
         <textarea name="address" placeholder="Ubicación" value={formData.address} onChange={handleChange} style={styles.textarea} />
         <textarea name="message" placeholder="Incidencia" value={formData.message} onChange={handleChange} style={styles.textarea} />
 

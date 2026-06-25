@@ -64,6 +64,7 @@ export default function AdminIncidencias() {
           <p><b>Usuario:</b> {t.user}</p>
           <p><b>Empresa:</b> {t.company || "No indicada"}</p>
           <p><b>Email:</b> {t.email}</p>
+          <p><b>Teléfono:</b> {t.phone || "No indicada"}</p>
           <p><b>Prioridad:</b> {t.priority}</p>
 
           <div style={styles.actions}>
@@ -93,6 +94,7 @@ export default function AdminIncidencias() {
             <p><b>Usuario:</b> {selectedTicket.user}</p>
             <p><b>Empresa:</b> {selectedTicket.company || "No indicada"}</p>
             <p><b>Email:</b> {selectedTicket.email}</p>
+            <p><b>Teléfono:</b> {selectedTicket.phone || "No indicado"}</p>
             <p><b>Ubicación:</b> {selectedTicket.location}</p>
 
             <h3 style={{

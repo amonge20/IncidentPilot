@@ -2,7 +2,7 @@ import { saveTicket } from "../../../lib/tickets";
 
 export async function POST(req) {
   try {
-    const { user, company, email, location, conversation } = await req.json();
+    const { user, company, email, phone, location, conversation } = await req.json();
 
     const text = JSON.stringify(conversation).toLowerCase();
 
@@ -26,6 +26,7 @@ export async function POST(req) {
       user,
       company, 
       email,
+      phone,
       location: location?.address || "",
       conversation,
       priority,
