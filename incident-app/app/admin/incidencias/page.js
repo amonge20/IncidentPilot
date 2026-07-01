@@ -45,7 +45,30 @@ export default function AdminIncidencias() {
 
   return (
     <div style={styles.container}>
-      <h1>📋 Incidencias</h1>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "30px",
+        }}>
+
+        <h1>📋 Incidencias</h1>
+
+        <button
+          onClick={() => window.location.href="/admin/trabajadores"}
+          style={{
+            padding: "10px 18px",
+            backgroundColor: "#000",
+            color: "#fff",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer",
+            fontWeight: "bold",
+          }}>
+          👷 Trabajadores
+        </button>
+      </div>
 
       {tickets.map((t) => (
         <div
