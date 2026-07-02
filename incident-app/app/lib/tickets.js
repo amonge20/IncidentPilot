@@ -42,3 +42,24 @@ export function deleteTicket(id) {
 
   return filteredTickets;
 }
+
+// Assignar trabajadores
+export function assignWorker(ticketId, worker) {
+
+  const tickets = getTickets();
+
+  const index = tickets.findIndex(
+    (t) => t.id === ticketId
+  );
+
+  if (index === -1) return false;
+
+  tickets[index].assignedWorker = worker;
+
+  fs.writeFileSync(
+    filePath,
+    JSON.stringify(tickets, null, 2)
+  );
+
+  return true;
+}

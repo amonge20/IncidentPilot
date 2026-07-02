@@ -1,122 +1,176 @@
 import { NextResponse } from "next/server";
+import PDFParser from "pdf2json";
 
 export async function POST(request) {
   try {
     const formData = await request.formData();
+
     const file = formData.get("cv");
 
     if (!file) {
       return NextResponse.json(
-        { valid: false, error: "No se ha recibido el CV." },
+        {
+          valid: false,
+          error: "No se ha recibido ningún archivo."
+        },
         { status: 400 }
       );
     }
 
     if (file.type !== "application/pdf") {
       return NextResponse.json(
-        { valid: false, error: "Solo se permiten PDFs." },
+        {
+          valid: false,
+          error: "Solo se permiten archivos PDF."
+        },
         { status: 400 }
       );
     }
 
-    // 📄 PDF -> texto (IMPORT CORRECTO PARA TURBOPACK)
     const buffer = Buffer.from(await file.arrayBuffer());
 
-    const pdfModule = await import("pdf-parse/lib/pdf-parse.js");
-    const pdfParse = pdfModule.default;
+    // ===========================
+    // EXTRAER TEXTO DEL PDF
+    // ===========================
 
-    const pdfData = await pdfParse(buffer);
-    const text = pdfData.text;
+    const text = await new Promise((resolve, reject) => {
 
-    if (!text || text.length < 50) {
-      return NextResponse.json(
-        { valid: false, error: "No se pudo extraer texto del CV." },
-        { status: 400 }
-      );
-    }
+      const pdfParser = new PDFParser();
 
-    // 🤖 GROQ
+      pdfParser.on("pdfParser_dataError", err => {
+        reject(err);
+      });
+
+      pdfParser.on("pdfParser_dataReady", pdfData => {
+
+        let result = "";
+
+        pdfData.Pages.forEach(page => {
+
+          page.Texts.forEach(text => {
+
+            text.R.forEach(r => {
+
+              result += decodeURIComponent(r.T) + " ";
+
+            });
+
+          });
+
+          result += "\n";
+
+        });
+
+        resolve(result);
+
+      });
+
+      pdfParser.parseBuffer(buffer);
+
+    });
+
+    // ===========================
+    // IA
+    // ===========================
+
     const response = await fetch(
       "https://api.groq.com/openai/v1/chat/completions",
       {
         method: "POST",
+
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
         },
+
         body: JSON.stringify({
+
           model: "llama-3.1-8b-instant",
+
+          temperature: 0.2,
+
           messages: [
+
             {
               role: "system",
+
               content: `
-Eres un experto en RRHH IT.
+Eres un experto en Recursos Humanos especializado en informática.
 
-Devuelve SOLO JSON válido con:
+Analiza el CV y devuelve únicamente JSON válido.
 
-- name
-- email
-- phone
-- dni (o null)
-- experience (años)
-- role (Técnico de Campo, Técnico de Sistemas, HelpDesk, DevOps, Ciberseguridad, Programador, Administrador de Sistemas)
-- level (Junior, Semi Senior, Senior)
-- skills (array)
+{
+"name":"",
+"email":"",
+"phone":"",
+"dni":"",
+"experience":0,
+"role":"",
+"level":"",
+"skills":[]
+}
 
-NO expliques nada.
-NO texto fuera del JSON.
-              `,
+Los roles permitidos son:
+
+- HelpDesk
+- Técnico de Campo
+- Técnico de Sistemas
+- Administrador de Sistemas
+- DevOps
+- Programador
+- Ciberseguridad
+- Cloud Engineer
+
+Los niveles permitidos:
+
+- Junior
+- Semi Senior
+- Senior
+
+No escribas absolutamente nada fuera del JSON.
+`
             },
+
             {
               role: "user",
-              content: text,
-            },
-          ],
-          temperature: 0.2,
-        }),
+              content: text
+            }
+
+          ]
+
+        })
+
       }
     );
 
     const data = await response.json();
 
-    const content = data?.choices?.[0]?.message?.content;
+    const content =
+      data.choices?.[0]?.message?.content;
 
-    if (!content) {
-      return NextResponse.json(
-        { valid: false, error: "La IA no devolvió respuesta." },
-        { status: 500 }
-      );
-    }
-
-    let result;
-
-    try {
-      result = JSON.parse(content);
-    } catch (e) {
-      return NextResponse.json(
-        {
-          valid: false,
-          error: "JSON inválido de la IA",
-          raw: content,
-        },
-        { status: 500 }
-      );
-    }
+    const result = JSON.parse(content);
 
     return NextResponse.json({
+
       valid: true,
-      ...result,
+
+      ...result
+
     });
 
   } catch (error) {
+
     console.error(error);
 
     return NextResponse.json(
       {
         valid: false,
-        error: "Error interno analizando el CV.",
+        error: "No se pudo analizar el CV."
       },
-      { status: 500 }
+      {
+        status: 500
+      }
     );
+
   }
 }

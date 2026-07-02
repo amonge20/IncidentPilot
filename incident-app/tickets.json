@@ -49,7 +49,20 @@
     ],
     "priority": "low",
     "status": "OPEN",
-    "createdAt": "2026-06-19T20:31:31.831Z"
+    "createdAt": "2026-06-19T20:31:31.831Z",
+    "assignedWorker": {
+      "name": "Daniel Gallego",
+      "email": "hola@unsitiogencial.es",
+      "phone": "123",
+      "dni": "",
+      "cv": {},
+      "role": "Programador",
+      "level": "Senior",
+      "skills": "",
+      "experience": "",
+      "id": "TEC-1783006783768",
+      "status": "Disponible"
+    }
   },
   {
     "id": "INC-1781903641006",
@@ -85,7 +98,20 @@
     ],
     "priority": "medium",
     "status": "OPEN",
-    "createdAt": "2026-06-19T21:14:01.006Z"
+    "createdAt": "2026-06-19T21:14:01.006Z",
+    "assignedWorker": {
+      "name": "Alba Castro",
+      "email": "lugarholagmail.es",
+      "phone": "911234567",
+      "dni": "123",
+      "cv": {},
+      "role": "Agente Comercial",
+      "level": "Senior",
+      "skills": "",
+      "experience": 2,
+      "id": "TEC-1783004330245",
+      "status": "Disponible"
+    }
   },
   {
     "id": "INC-1781905849682",
@@ -129,7 +155,20 @@
     ],
     "priority": "high",
     "status": "OPEN",
-    "createdAt": "2026-06-19T21:50:49.682Z"
+    "createdAt": "2026-06-19T21:50:49.682Z",
+    "assignedWorker": {
+      "name": "Lola Ánglada",
+      "email": "aitormonge112@gmail.com",
+      "phone": "34-647-99-78-10",
+      "dni": "",
+      "cv": {},
+      "role": "Técnico de Sistemas",
+      "level": "Senior",
+      "skills": "Mantenimiento de sistemas operativos Windows y Linux, Gestión de inventario, Gestión de incidencias software y hardware, Desarrollo de aplicaciones web, Giro web, Giroona",
+      "experience": 10,
+      "id": "TEC-1783009103280",
+      "status": "Disponible"
+    }
   },
   {
     "id": "INC-1782402547365",
@@ -174,6 +213,19 @@
     ],
     "priority": "high",
     "status": "OPEN",
-    "createdAt": "2026-06-25T15:49:07.365Z"
+    "createdAt": "2026-06-25T15:49:07.365Z",
+    "assignedWorker": {
+      "name": "Lola Ánglada",
+      "email": "aitormonge112@gmail.com",
+      "phone": "34-647-99-78-10",
+      "dni": "",
+      "cv": {},
+      "role": "Técnico de Sistemas",
+      "level": "Senior",
+      "skills": "Mantenimiento de sistemas operativos Windows y Linux, Gestión de inventario, Gestión de incidencias software y hardware, Desarrollo de aplicaciones web, Giro web, Giroona",
+      "experience": 10,
+      "id": "TEC-1783009103280",
+      "status": "Disponible"
+    }
   }
 ]

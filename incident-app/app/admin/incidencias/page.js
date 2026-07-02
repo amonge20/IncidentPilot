@@ -3,19 +3,39 @@
 import { useEffect, useState } from "react";
 
 export default function AdminIncidencias() {
+  // TICKETS
   const [tickets, setTickets] = useState([]);
   const [selectedTicket, setSelectedTicket] = useState(null);
 
+  // TRABAJADORES
+  const [workers, setWorkers] = useState([]);
+  const [assignedWorker, setAssignedWorker] = useState("");
+
+  // FILTROS
+  const [priorityFilter, setPriorityFilter] = useState("all");
+  const [workerFilter, setWorkerFilter] = useState("all");
+
+  // CARGAS LOS TICKETS
+  const loadTickets = async () => {
+
+    const res = await fetch("/api/tickets/list");
+
+    const data = await res.json();
+
+    setTickets(data);
+
+  };
+
+  // PARA CARGAR LOS TICKETS Y LOS TRABAJADORES
   useEffect(() => {
-    fetch("/api/tickets/list")
-      .then((res) => {
-        if (!res.ok) throw new Error("Error en API");
-        return res.json();
-      })
-      .then((data) => setTickets(data))
-      .catch((err) => {
-        console.error("Error cargando tickets:", err);
-        setTickets([]);
+
+    loadTickets();
+
+    fetch("/api/workers/list")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Trabajadores:", data);
+        setWorkers(data);
       });
   }, []);
 
@@ -43,34 +63,106 @@ export default function AdminIncidencias() {
     setTickets((prev) => prev.filter((t) => t.id !== id));
   };
 
+  // ASIGNAR TRABAJADORES
+  const assignWorker = async () => {
+
+  if (!assignedWorker) {
+    alert("Seleccione un trabajador");
+    return;
+  }
+
+  const res = await fetch("/api/tickets/assign", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      ticketId: selectedTicket.id,
+      workerId: assignedWorker,
+    }),
+  });
+
+  const data = await res.json();
+
+  if (data.success) {
+    alert("Trabajador asignado correctamente");
+
+    loadTickets();
+
+    setSelectedTicket(null);
+
+  } else {
+
+    alert(data.message);
+
+  }
+};
+
   return (
     <div style={styles.container}>
+      <h1>📋 Incidencias</h1>
+
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between",
+          gap: "15px",
           alignItems: "center",
-          marginBottom: "30px",
-        }}>
-
-        <h1>📋 Incidencias</h1>
+          marginTop: "20px",
+          marginBottom: "25px",
+          flexWrap: "wrap",
+        }}
+      >
 
         <button
+          style={styles.addWorkerButton}
           onClick={() => window.location.href="/admin/trabajadores"}
-          style={{
-            padding: "10px 18px",
-            backgroundColor: "#000",
-            color: "#fff",
-            border: "none",
-            borderRadius: "8px",
-            cursor: "pointer",
-            fontWeight: "bold",
-          }}>
+        >
           👷 Trabajadores
         </button>
+
+        <select
+          value={priorityFilter}
+          onChange={(e)=>setPriorityFilter(e.target.value)}
+          style={styles.filter}
+        >
+          <option value="all">Todas las prioridades</option>
+          <option value="high">🔴 Alta</option>
+          <option value="medium">🟠 Media</option>
+          <option value="low">🟢 Baja</option>
+        </select>
+
+        <select
+          value={workerFilter}
+          onChange={(e)=>setWorkerFilter(e.target.value)}
+          style={styles.filter}
+        >
+          <option value="all">Todos los trabajadores</option>
+
+          {workers.map(worker=>(
+            <option
+              key={worker.id}
+              value={worker.id}
+            >
+              {worker.name}
+            </option>
+          ))}
+
+        </select>
+
       </div>
 
-      {tickets.map((t) => (
+      {tickets.filter((t) => {
+        const priorityOk =
+          priorityFilter === "all" ||
+          t.priority === priorityFilter;
+
+        const workerOk =
+          workerFilter === "all" ||
+          t.assignedWorker?.id === workerFilter;
+
+        return priorityOk && workerOk;
+      })
+      .map((t) => (
         <div
           key={t.id}
           style={{
@@ -90,10 +182,24 @@ export default function AdminIncidencias() {
           <p><b>Teléfono:</b> {t.phone || "No indicada"}</p>
           <p><b>Prioridad:</b> {t.priority}</p>
 
+          <p>
+            <b>👷 Asignado a:</b>{" "}
+            {t.assignedWorker
+              ? `${t.assignedWorker.name} (${t.assignedWorker.role})`
+              : "Sin asignar"}
+          </p>
+
           <div style={styles.actions}>
             <button
               style={styles.viewBtn}
-              onClick={() => setSelectedTicket(t)}
+              onClick={() => {
+                setSelectedTicket(t);
+
+                setAssignedWorker(
+                  t.assignedWorker?.id || ""
+                );
+
+              }}
             >
               👁 Ver
             </button>
@@ -152,10 +258,61 @@ export default function AdminIncidencias() {
                 </div>
               ))}
             </div>
+              <select
+                value={assignedWorker}
+                onChange={(e) => setAssignedWorker(e.target.value)}
+              >
+                <option value="">Selecciona un trabajador</option>
 
-            <button style={styles.closeBtn} onClick={() => setSelectedTicket(null)}>
-              Cerrar
-            </button>
+                {workers.map((worker) => (
+                  <option
+                    key={worker.id}
+                    value={worker.id}
+                  >
+                    {worker.name} - {worker.role} ({worker.level})
+                  </option>
+                ))}
+              </select>
+
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  gap: "12px",
+                  marginTop: "20px",
+                }}
+              >
+              <button
+                onClick={assignWorker}
+                style={{
+                  flex: 1,
+                  background: "#1976d2",
+                  color: "#fff",
+                  padding: "10px",
+                  border: "none",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                }}
+              >
+                {selectedTicket?.assignedWorker
+                  ? "🔄 Reasignar trabajador"
+                  : "👷 Asignar trabajador"}
+              </button>
+                <button
+                  onClick={() => setSelectedTicket(null)}
+                  style={{
+                    flex: 1,
+                    background: "#ff0000",
+                    color: "#fff",
+                    padding: "10px",
+                    border: "none",
+                    borderRadius: "8px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Cerrar
+                </button>
+              </div>
           </div>
         </div>
       )}
@@ -240,6 +397,24 @@ const styles = {
     color: "#fff",
     border: "none",
     borderRadius: "6px",
+    cursor: "pointer",
+  },
+
+  filter: {
+    padding: "10px",
+    borderRadius: "8px",
+    border: "1px solid #ccc",
+    minWidth: "220px",
+    background: "#fff",
+    cursor: "pointer",
+  },
+
+  addWorkerButton: {
+    padding: "10px 18px",
+    background: "#000",
+    color: "#fff",
+    border: "none",
+    borderRadius: "8px",
     cursor: "pointer",
   },
 };

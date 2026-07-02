@@ -40,3 +40,14 @@ export function deleteWorker(id) {
 
   return workers;
 }
+
+// Assignar trabajadores
+export function getWorkerById(id) {
+
+  const workers = getWorkers();
+
+  return workers.find(
+    (w) => w.id === id
+  );
+
+}
