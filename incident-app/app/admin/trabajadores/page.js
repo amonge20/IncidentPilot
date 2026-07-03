@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 export default function Trabajadores() {
   const [workers, setWorkers] = useState([]);
+  const [selectedWorker, setSelectedWorker] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [loadingAI, setLoadingAI] = useState(false);
 
@@ -18,6 +19,7 @@ export default function Trabajadores() {
     skills: "",
     experience: "",
   });
+
   // =========================
   // CARGAR TRABAJADORES
   // =========================
@@ -205,13 +207,19 @@ export default function Trabajadores() {
 
             <div style={styles.buttons}>
               <button
+                style={styles.view}
+                onClick={() => setSelectedWorker(worker)}
+              >
+                👁 Ver
+              </button>
+
+              <button
                 style={styles.delete}
-                onClick={() =>
-                  deleteWorker(worker.id)
-                }
+                onClick={() => deleteWorker(worker.id)}
               >
                 🗑 Eliminar
               </button>
+
             </div>
           </div>
         ))}
@@ -308,6 +316,58 @@ export default function Trabajadores() {
           </div>
         </div>
       )}
+            {selectedWorker && (
+        <div style={styles.overlay}>
+          <div style={styles.modal}>
+
+            <h2>👷 Datos del trabajador</h2>
+
+            <p>
+              <b>Nombre:</b> {selectedWorker.name}
+            </p>
+
+            <p>
+              <b>Email:</b> {selectedWorker.email}
+            </p>
+
+            <p>
+              <b>Teléfono:</b> {selectedWorker.phone}
+            </p>
+
+            <p>
+              <b>DNI:</b> {selectedWorker.dni || "No indicado"}
+            </p>
+
+            <p>
+              <b>Rol:</b> {selectedWorker.role}
+            </p>
+
+            <p>
+              <b>Nivel:</b> {selectedWorker.level}
+            </p>
+
+            <p>
+              <b>Experiencia:</b> {selectedWorker.experience} años
+            </p>
+
+            <div style={styles.skillsBox}>
+              <b>Habilidades</b>
+
+              <div style={{ marginTop: "10px", whiteSpace: "pre-wrap" }}>
+                {selectedWorker.skills}
+              </div>
+            </div>
+
+            <button
+              style={styles.cancel}
+              onClick={() => setSelectedWorker(null)}
+            >
+              Cerrar
+            </button>
+
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -399,5 +459,22 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     gap: 10,
+  },
+
+  view: {
+    background: "#1976d2",
+    color: "#fff",
+    border: "none",
+    padding: "10px",
+    borderRadius: "6px",
+    cursor: "pointer",
+  },
+
+  skillsBox: {
+    marginTop: "15px",
+    padding: "15px",
+    border: "1px solid #ddd",
+    borderRadius: "8px",
+    background: "#f7f7f7",
   },
 };

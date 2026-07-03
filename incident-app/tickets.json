@@ -227,5 +227,64 @@
       "id": "TEC-1783009103280",
       "status": "Disponible"
     }
+  },
+  {
+    "id": "INC-1783093604376",
+    "user": "Juan del Valles",
+    "company": "olevending",
+    "email": "juanvalles@olevending.es",
+    "phone": "123456789",
+    "location": "Carrer del Vendrell, 49A, 08227 Terrassa, Barcelona",
+    "conversation": [
+      {
+        "role": "user",
+        "content": "\n        Nombre: Juan del Valles\n        Empresa: olevending\n        Email: juanvalles@olevending.es\n        Teléfono: 123456789\n\n        Ubicación:\n        Carrer del Vendrell, 49A, 08227 Terrassa, Barcelona\n\n        Incidencia:\n        Tenemos un ordenador en donde gestionamos los avisos de nuestras maquinas expendedores no funciona\n        "
+      },
+      {
+        "role": "assistant",
+        "content": "Hola Juan, gracias por contactar con nuestro equipo de soporte. Me alegra ayudarte a resolver el problema con el ordenador que gestiona tus avisos de máquinas expendedoras.\n\nMe gustaría tener un poco más de información para poder analizar la incidencia de manera efectiva. Por favor, ¿puedes decirme:\n\n- ¿Cuál es el modelo exacto del ordenador y la versión del software que está utilizando para gestionar los avisos?\n- ¿Puedes describir qué tipo de problema está experimentando con el ordenador? ¿No se enciende, se congela, o no puede conectarse a internet, por ejemplo?\n- ¿Ha experimentado algún cambio recientemente en el entorno del ordenador, como la instalación de nuevos software o actualizaciones del sistema operativo?\n- ¿Puedes proporcionarme el nombre del usuario y el nombre del dominio (si es un entorno de red)?\n\nCon esta información, puedo empezar a analizar la incidencia y proporcionarte una posible solución."
+      },
+      {
+        "role": "user",
+        "content": "Es un ordenador de torre en que es un HP proliant y la version dela app es la más reciente. Ultimamente el ordenador me iba muy lento, a veces se congela y otra veces no me responde y se cierra automaticamente, no he detectado nuevo software desde que lo actualize. El nombre de usuario es \"jvalles22\" y normalmente tenemos un dominio llamado \"gca.overloding.intranet.net\""
+      },
+      {
+        "role": "assistant",
+        "content": "Muchas gracias por proporcionarme esta información, Juan. Con base en lo que has descrito, parece que el ordenador está experimentando problemas de rendimiento y estabilidad.\n\nAntes de continuar, me gustaría confirmar algunas cosas:\n\n- ¿El ordenador se encuentra conectado a la red interna de la empresa (gca.overloding.intranet.net) y tiene acceso a internet?\n- ¿El sistema operativo del ordenador es Windows, Linux o otro?\n- ¿Se han realizado copias de seguridad recientemente de los datos importantes del ordenador y la aplicación?\n\nAdemás, como mencionaste que el ordenador es un HP Proliant, es posible que el problema esté relacionado con una configuración específica del hardware o un problema de enfriamiento. También es posible que el problema esté relacionado con la aplicación en sí misma.\n\nPara analizar el problema de manera más detallada, me gustaría solicitar la siguiente información:\n\n- ¿Puedes proporcionarme el registro de eventos del sistema operativo (Event Viewer) para poder analizar los errores y advertencias que se han producido?\n- ¿Puedes proporcionarme la salida del comando \"systeminfo\" en la línea de comandos para obtener información del sistema operativo, hardware y configuración?\n\nCon esta información, puedo intentar identificar la causa raíz del problema y proporcionarte una posible solución."
+      },
+      {
+        "role": "user",
+        "content": "El sistema operativo que se usa es un Windows 11, la conexion a internet va bien y he mirado el historial de systeminfo y no ha detectado nada, no se que solucion me podrias darme"
+      },
+      {
+        "role": "assistant",
+        "content": "¡Gracias por la información, Juan!\n\nCon un sistema operativo Windows 11 en un HP Proliant, es posible que el problema esté relacionado con una configuración específica del hardware o un problema de enfriamiento.\n\nDadas las descripciones que has proporcionado de problemas de rendimiento, congelamientos y cierres automáticos, me gustaría sugerir algunas posibles soluciones:\n\n1. **Reinicializar el sistema operativo**: Es posible que el problema esté relacionado con un fallo en la configuración del sistema operativo. Reinicializar el sistema operativo puede ayudar a restaurar el estado anterior y resolver el problema. ¿Estás dispuesto a reinstalar el sistema operativo y restaurar los datos importantes desde una copia de seguridad?\n2. **Actualizar los drivers del hardware**: Es posible que los drivers del hardware estén desactualizados, lo que podría estar causando problemas de rendimiento. ¿Puedes verificar si hay actualizaciones de drivers disponibles para el hardware del ordenador?\n3. **Revisar la configuración de enfriamiento**: Los ordenadores HP Proliant pueden requerir una revisión de la configuración de enfriamiento para asegurarse de que el ordenador se está enfriando adecuadamente. ¿Puedes verificar la configuración de enfriamiento y asegurarte de que el ordenador esté funcionando dentro de los parámetros normales?\n4. **Realizar un análisis de performance**: Es posible que el problema esté relacionado con una configuración específica del sistema operativo o una aplicación mal configurada. Un análisis de performance puede ayudar a identificar la causa raíz del problema.\n\n¿Estás dispuesto a intentar alguna de estas soluciones? Si no, puedo sugerir otras opciones o escalada el problema a un técnico especializado.\n\nRECUERDA que, si no se pueda resolver el problema mediante el soporte remoto, es posible que debamos proceder a escalada el problema para intentar resolverlo de manera más efectiva."
+      },
+      {
+        "role": "user",
+        "content": "Y no hay algun tecnico disponible en que se pueda conectar atraves de mi ordenador o quieres que lo intente? Porque los drivers ya están todos actualizados y eso lo revise antes de hablar contigo "
+      },
+      {
+        "role": "assistant",
+        "content": "¡Gracias por la confirmación, Juan!\n\nEn este caso, no hay necesidad de conectarme a tu ordenador de manera remota. Mi objetivo era recopilar información y proporcionarte sugerencias para resolver el problema.\n\nDadas las condiciones actuales, te sugiero que intentes aplicar algunas de las soluciones que te propuse anteriormente:\n\n1. **Reinicializar el sistema operativo**: Si estás dispuesto a reinstalar el sistema operativo y restaurar los datos importantes desde una copia de seguridad, puede ser beneficioso para resolver el problema.\n2. **Revisar la configuración de enfriamiento**: Asegúrate de que el ordenador esté funcionando dentro de los parámetros normales y que el sistema de enfriamiento esté configurado correctamente.\n3. **Realizar un análisis de performance**: Puedes intentar identificar el problema mediante el uso de herramientas de análisis de performance del sistema operativo.\n\nSi después de intentar estas soluciones el problema persiste, es posible que debamos considerar una **escalada** para intentar resolverlo de manera más efectiva. ¿Qué te parece si esperamos un poco y luego intentamos contactar con un técnico especializado que pueda asistirte en persona?"
+      }
+    ],
+    "summary": "El ordenador HP Proliant con Windows 11 está experimentando problemas de rendimiento y estabilidad, incluyendo congelamientos y cierres automáticos. Se han intentado actualizar los drivers y revisar la configuración de enfriamiento, pero el problema persiste. Se requiere una escalada para intentar resolverlo de manera más efectiva.",
+    "priority": "high",
+    "status": "OPEN",
+    "createdAt": "2026-07-03T15:46:44.376Z",
+    "assignedWorker": {
+      "name": "Lola Ánglada",
+      "email": "aitormonge112@gmail.com",
+      "phone": "34-647-99-78-10",
+      "dni": "",
+      "cv": {},
+      "role": "Técnico de Sistemas",
+      "level": "Senior",
+      "skills": "Mantenimiento de sistemas operativos Windows y Linux, Gestión de inventario, Gestión de incidencias software y hardware, Desarrollo de aplicaciones web, Giro web, Giroona",
+      "experience": 10,
+      "id": "TEC-1783009103280",
+      "status": "Disponible"
+    }
   }
 ]

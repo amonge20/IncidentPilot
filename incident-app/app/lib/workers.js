@@ -41,13 +41,11 @@ export function deleteWorker(id) {
   return workers;
 }
 
-// Assignar trabajadores
+// Buscar trabajador por ID
 export function getWorkerById(id) {
-
   const workers = getWorkers();
 
   return workers.find(
     (w) => w.id === id
   );
-
 }
