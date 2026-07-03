@@ -183,6 +183,29 @@ export default function AdminIncidencias() {
           <p><b>Prioridad:</b> {t.priority}</p>
 
           <p>
+            <b>Estado:</b>{" "}
+            <span
+              style={{
+                padding: "5px 10px",
+                borderRadius: "8px",
+                color: "#fff",
+                background:
+                  t.status === "En camino"
+                    ? "#f39c12"
+                    : t.status === "En cliente"
+                    ? "#3498db"
+                    : t.status === "En progreso"
+                    ? "#9b59b6"
+                    : t.status === "Finalizada"
+                    ? "#2ecc71"
+                    : "#777",
+              }}
+            >
+              {t.status || "ASIGNADA"}
+            </span>
+          </p>
+
+          <p>
             <b>👷 Asignado a:</b>{" "}
             {t.assignedWorker
               ? `${t.assignedWorker.name} (${t.assignedWorker.role})`
@@ -258,7 +281,50 @@ export default function AdminIncidencias() {
                 </div>
               ))}
             </div>
-              <select
+            {/* HISTORIAL DEL TRABAJADOR */}
+            <hr style={{ marginTop: 25, marginBottom: 20 }} />
+            <h3>📜 Historial del trabajador</h3>
+            <div
+              style={{
+                background: "#fafafa",
+                border: "1px solid #ddd",
+                borderRadius: "10px",
+                padding: "15px",
+                maxHeight: "250px",
+                overflowY: "auto",
+                marginBottom: "20px",
+              }}
+            >
+
+              {selectedTicket.history?.length ? (
+                selectedTicket.history
+                  .slice()
+                  .reverse()
+                  .map((item, index) => (
+                    <div
+                      key={index}
+                      style={{
+                        paddingBottom: "10px",
+                        marginBottom: "10px",
+                        borderBottom: "1px solid #eee",
+                      }}
+                    >
+                      <b>{item.worker}</b>
+
+                      <br />
+                      {item.action}
+                      <br />
+
+                      <small style={{ color: "#666" }}>
+                        {new Date(item.date).toLocaleString()}
+                      </small>
+                    </div>
+                  ))
+              ) : (
+                <p>No hay movimientos todavía.</p>
+              )}
+            </div>
+            <select
                 value={assignedWorker}
                 onChange={(e) => setAssignedWorker(e.target.value)}
               >
@@ -377,6 +443,8 @@ const styles = {
     width: "90%",
     maxWidth: "700px",
     color: "#111",
+    maxHeight: "90vh",      
+    overflowY: "auto",      
   },
 
   chat: {
