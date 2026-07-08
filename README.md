@@ -1,184 +1,311 @@
 # IncidentPilot
 
-AI Incident Management System
-🧠 Overview
+AI-Powered Field Service & Incident Management Platform
 
-This project is an AI-powered incident management system built with Next.js (App Router).
-It allows users to submit technical incidents, receive AI-generated support responses, and escalate issues into structured support tickets for administrative review.
+---
 
-The system integrates:
+# 🧠 Overview
 
-OpenAI-compatible LLM API (Groq / LLaMA 3.1)
-Serverless API routes (Next.js Route Handlers)
-In-memory ticketing system
-Incident prioritization via AI classification
-Admin-ready ticket retrieval endpoint
-🏗️ Architecture
+IncidentPilot is an intelligent incident management platform developed with **Next.js (App Router)** and powered by **Artificial Intelligence (Groq - Llama 3.1)**.
+
+The platform assists users during the creation of IT incidents, automatically classifies their priority, generates technical summaries for support staff, assigns incidents to technicians and records the complete intervention history.
+
+The goal is to reduce response times while improving communication between customers, technicians and administrators.
+
+---
+
+# 🚀 Main Features
+
+## 👤 Customer Portal
+
+Customers can:
+
+- Report technical incidents
+- Chat with the AI assistant
+- Receive troubleshooting suggestions
+- Escalate unresolved issues into an incident ticket
+
+Collected information:
+
+- Name
+- Company
+- Email
+- Phone
+- Address
+- Conversation history
+
+---
+
+## 🤖 AI Assistant
+
+Powered by:
+
+- Groq API
+- Llama 3.1 8B Instant
+
+The AI:
+
+- Guides the customer through troubleshooting
+- Detects urgency
+- Assigns incident priority
+- Generates a technical summary for technicians
+- Escalates unresolved issues
+
+Example response:
+
+```json
+{
+  "priority": "high",
+  "summary": "Network connectivity failure affecting the office. Router appears operational but clients cannot access internal services."
+}
+```
+
+---
+
+# 🎫 Incident Management
+
+Every incident includes:
+
+- Incident ID
+- Customer information
+- Company
+- Contact details
+- Address
+- Conversation
+- AI Summary
+- Priority
+- Status
+- Assigned technician
+- Intervention history
+
+Example:
+
+```
+INC-1783123456789
+```
+
+---
+
+# 👨‍💼 Administrator Panel
+
+The administrator can:
+
+- View all incidents
+- Delete incidents
+- Filter by priority
+- Filter by technician
+- Assign technicians
+- Reassign technicians
+- Review the full AI conversation
+
+---
+
+# 👷 Technician Portal
+
+Each technician has their own dashboard showing only assigned incidents.
+
+For every incident they can view:
+
+- Customer information
+- AI technical summary
+- Current status
+- Intervention history
+
+Technicians can update the incident through several stages:
+
+- Assigned
+- On the way
+- At customer
+- In progress
+- Pending
+- Completed
+
+Each action is automatically stored in the incident history.
+
+Example:
+
+```
+09:45
+John Smith
+
+Technician arrived on site
+```
+
+---
+
+# 📖 Incident History
+
+Every status update generates a permanent log entry including:
+
+- Technician
+- Action performed
+- Timestamp
+
+This creates a complete timeline of the intervention.
+
+---
+
+# 🤖 AI Summary
+
+Instead of reading the full customer conversation, technicians receive an automatically generated summary containing only the relevant technical information.
+
+Example:
+
+> Internet connectivity lost after power outage.
+> Router operational.
+> Internal network unavailable.
+> Customer already restarted equipment.
+
+---
+
+# 📋 Technician Completion Form
+
+When an intervention is completed, technicians fill in a structured report including:
+
+- Problem description
+- Solution applied
+- Replaced components
+- Resolution status
+- Pending work (if applicable)
+
+This information becomes part of the incident record.
+
+---
+
+# 🗂 Current Storage
+
+Current version:
+
+```
+tickets.json
+```
+
+This is temporary storage used during development.
+
+Future versions will migrate to:
+
+- SQLite
+- Prisma ORM
+
+without modifying the application logic.
+
+---
+
+# 🏗 Project Structure
+
+```
 app/
- ├── form/
- │    └── page.js            # User incident submission UI
+
+ ├── admin/
+ │     ├── incidencias/
+ │     └── trabajadores/
+ │
+ ├── worker/
+ │     ├── dashboard/
+ │     └── incidencia/
+ │            └── [id]/
+ │                 └── finalizar/
  │
  ├── api/
- │    ├── ai/
- │    │    └── route.js      # AI support agent endpoint
- │    │
- │    └── tickets/
- │         ├── create/route.js
- │         └── list/route.js # Admin ticket retrieval
+ │     ├── ai/
+ │     ├── tickets/
+ │     │      ├── create/
+ │     │      ├── get/
+ │     │      ├── list/
+ │     │      ├── assign/
+ │     │      ├── update-status/
+ │     │      └── finalize/
+ │     │
+ │     └── workers/
  │
- ├── lib/
- │    └── tickets.js         # In-memory ticket store
+ └── lib/
+        tickets.js
+```
 
-⚙️ Core Features
-1. 🧾 Incident Submission
+---
 
-Users submit:
+# ⚙ Technologies
 
-Full name
-Email
-Location
-Incident description
+- Next.js 16
+- React
+- App Router
+- Groq API
+- Llama 3.1
+- Node.js
+- JSON Storage (temporary)
 
-Stored in a temporary conversation state and sent to AI.
+Future:
 
-2. 🤖 AI Support Agent
+- SQLite
+- Prisma
+- PDF generation
+- Email notifications
 
-Endpoint:
+---
 
-POST /api/ai
-Behavior:
-Acts as a technical IT support agent
-Maintains conversation context
-Returns structured JSON:
-{
-  "message": "Technical response or question",
-  "priority": "low | medium | high | critical"
-}
-Prompt constraints:
-Must not hallucinate physical actions
-Must escalate unresolved issues
-Must classify severity dynamically
-3. 🚨 Ticket Creation System
+# 🔐 Security
 
-Endpoint:
+- Environment Variables
+- Server-side API Routes
+- Basic validation
+- Abuse detection
+- AI prompt restrictions
 
-POST /api/tickets/create
-Features:
+---
 
-Generates unique ticket ID:
+# 🚀 Roadmap
 
-TCK-{timestamp}
-Stores:
-user
-email
-location
-conversation history
-AI-assigned priority
-Performs basic abuse filtering (keyword-based moderation)
-Logs ticket server-side
-4. 📦 Ticket Storage Layer
+## Completed
 
-File:
+- AI chat assistant
+- Automatic incident creation
+- AI priority classification
+- AI-generated technical summaries
+- Administrator dashboard
+- Technician dashboard
+- Technician assignment
+- Incident history
+- Status management
+- Incident completion form
 
-app/lib/tickets.js
-export const tickets = [];
+---
 
-In-memory persistence model:
+## In Progress
 
-Non-persistent (resets on server restart)
-Suitable for prototype / MVP
-5. 📊 Ticket Listing API (Admin Panel Backend)
+- Pending intervention workflow
+- AI assistant for technicians
+- SLA timers
+- Technician performance analytics
 
-Endpoint:
+---
 
-GET /api/tickets/list
+## Planned
 
-Returns:
+- SQLite migration
+- Prisma ORM
+- PDF intervention reports
+- Digital signatures
+- Customer satisfaction survey
+- Email notifications
+- Automatic PDF delivery
+- AI-generated intervention report
+- Analytics dashboard
+- Knowledge base generation
+- Multi-company support
 
-[
-  {
-    "id": "TCK-123456789",
-    "user": "John Doe",
-    "email": "john@email.com",
-    "location": { "address": "Barcelona" },
-    "conversation": [],
-    "status": "OPEN",
-    "priority": "high"
-  }
-]
-🧠 AI Prompt Engineering
+---
 
-System prompt defines strict behavior:
+# 🎯 Project Vision
 
-IT technical support assistant
-Must ask clarifying questions if needed
-Must never promise physical interventions
-Must escalate unresolved cases
-Must respond in structured JSON format
-🎯 Incident Priority Model
+IncidentPilot aims to become an AI-powered Service Desk platform capable of managing the complete lifecycle of technical incidents:
 
-Priority is assigned by AI:
+1. Customer assistance through AI
+2. Intelligent incident classification
+3. Automatic technician assignment
+4. Real-time intervention tracking
+5. AI-assisted technician workflow
+6. Digital intervention reports
+7. Customer validation and signatures
+8. Continuous learning through incident history
 
-Level	Meaning
-low	minor issue / informational
-medium	service degradation
-high	system not working
-critical	total outage / data loss
-🖥️ Frontend Flow
-User submits form (/form)
-Request sent to /api/ai
-AI returns structured response
-UI displays:
-AI message
-priority badge
-User can:
-follow up
-escalate to ticket
-mark as solved
-🚨 Escalation Flow
-
-When user clicks:
-
-🚨 Escalar Incidencia
-
-System:
-
-Sends conversation to /api/tickets/create
-Generates ticket object
-Assigns priority from AI
-Stores in memory
-Returns success response
-🧪 Known Limitations
-❌ No persistent database (tickets are in-memory)
-❌ No authentication layer
-❌ No real-time admin dashboard yet
-❌ No WebSocket updates
-❌ AI responses depend on external API latency
-📡 Tech Stack
-Next.js 13+ (App Router)
-React (Client Components)
-Groq API (LLaMA 3.1)
-Node.js serverless functions
-In-memory state storage
-🔐 Security Notes
-Basic profanity filtering implemented
-No user authentication currently
-API keys stored via environment variables
-No persistent storage (reduces data exposure risk)
--------------------------------------------------------------------------------------------------
-🚀 Future Improvements
-PostgreSQL / MongoDB integration
-Admin dashboard /incidencias
-Ticket filtering by priority
-Authentication (JWT / NextAuth)
-Real-time updates (WebSockets)
-AI memory per user session
-SLA tracking system
-📌 Summary
-
-This project implements a minimal SaaS-style IT support system powered by AI, combining:
-
-Incident intake
-AI-based triage
-Ticket escalation
-Admin-ready data pipeline
+The project is being developed as a scalable architecture, allowing future migration from local JSON storage to a relational database without changing the business logic.

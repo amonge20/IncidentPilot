@@ -2,487 +2,192 @@
 
 import { useEffect, useState } from "react";
 
-export default function AdminIncidencias() {
-  // TICKETS
-  const [tickets, setTickets] = useState([]);
-  const [selectedTicket, setSelectedTicket] = useState(null);
+import Filters from "./components/Filters";
+import ActiveTickets from "./components/ActiveTickets";
+import FinishedTickets from "./components/FinishedTickets";
+import TicketModal from "./components/TicketModal";
 
-  // TRABAJADORES
+export default function AdminIncidencias() {
+
+  // =============================
+  // ESTADOS
+  // =============================
+
+  const [tickets, setTickets] = useState([]);
   const [workers, setWorkers] = useState([]);
+
+  const [selectedTicket, setSelectedTicket] = useState(null);
   const [assignedWorker, setAssignedWorker] = useState("");
 
-  // FILTROS
   const [priorityFilter, setPriorityFilter] = useState("all");
   const [workerFilter, setWorkerFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
 
-  // CARGAS LOS TICKETS
-  const loadTickets = async () => {
+  // =============================
+  // CARGAR TICKETS
+  // =============================
+
+  async function loadTickets() {
 
     const res = await fetch("/api/tickets/list");
-
     const data = await res.json();
 
     setTickets(data);
 
-  };
+  }
 
-  // PARA CARGAR LOS TICKETS Y LOS TRABAJADORES
+  // =============================
+  // CARGAR TRABAJADORES
+  // =============================
+
   useEffect(() => {
 
     loadTickets();
 
     fetch("/api/workers/list")
       .then((res) => res.json())
-      .then((data) => {
-        console.log("Trabajadores:", data);
-        setWorkers(data);
-      });
+      .then((data) => setWorkers(data));
+
   }, []);
 
-  const getColor = (priority) => {
-    switch (priority) {
-      case "high":
-        return "#ff0000";
-      case "medium":
-        return "#ff9900";
-      default:
-        return "#4caf50";
-    }
-  };
+  // =============================
+  // ELIMINAR INCIDENCIA
+  // =============================
 
-  const deleteTicket = async (id) => {
-    const confirmed = window.confirm("¿Seguro que quieres eliminar la incidencia?");
-    if (!confirmed) return;
+  async function deleteTicket(id) {
+
+    if (!window.confirm("¿Seguro que quieres eliminar la incidencia?")) {
+      return;
+    }
 
     await fetch("/api/tickets/delete", {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({ id }),
     });
-
     setTickets((prev) => prev.filter((t) => t.id !== id));
-  };
-
-  // ASIGNAR TRABAJADORES
-  const assignWorker = async () => {
-
-  if (!assignedWorker) {
-    alert("Seleccione un trabajador");
-    return;
   }
 
-  const res = await fetch("/api/tickets/assign", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      ticketId: selectedTicket.id,
-      workerId: assignedWorker,
-    }),
+  // =============================
+  // ASIGNAR TRABAJADOR
+  // =============================
+
+  async function assignWorker() {
+    if (!assignedWorker) {
+      alert("Seleccione un trabajador");
+      return;
+    }
+
+    const res = await fetch("/api/tickets/assign", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
+        ticketId: selectedTicket.id,
+        workerId: assignedWorker,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!data.success) {
+      alert(data.message);
+      return;
+    }
+    alert("Trabajador asignado correctamente");
+    loadTickets();
+    setSelectedTicket(null);
+  }
+
+  // =============================
+  // FILTROS
+  // =============================
+
+  const filteredTickets = tickets.filter((t) => {
+
+    const priorityOk =
+      priorityFilter === "all" ||
+      t.priority === priorityFilter;
+
+    const workerOk =
+      workerFilter === "all" ||
+      t.assignedWorker?.id === workerFilter;
+
+    const statusOk =
+      statusFilter === "all" ||
+      t.status === statusFilter;
+    return priorityOk && workerOk && statusOk;
   });
 
-  const data = await res.json();
+  const activeTickets = filteredTickets.filter(
+    (t) => t.status !== "Finalizado"
+  );
 
-  if (data.success) {
-    alert("Trabajador asignado correctamente");
+  const finishedTickets = filteredTickets.filter(
+    (t) => t.status === "Finalizado"
+  );
 
-    loadTickets();
-
-    setSelectedTicket(null);
-
-  } else {
-
-    alert(data.message);
-
-  }
-};
+  // =============================
+  // RENDER
+  // =============================
 
   return (
     <div style={styles.container}>
       <h1>📋 Incidencias</h1>
+      <Filters
+        workers={workers}
+        priorityFilter={priorityFilter}
+        workerFilter={workerFilter}
+        statusFilter={statusFilter}
+        setPriorityFilter={setPriorityFilter}
+        setWorkerFilter={setWorkerFilter}
+        setStatusFilter={setStatusFilter}
+      />
 
-      <div
-        style={{
-          display: "flex",
-          gap: "15px",
-          alignItems: "center",
-          marginTop: "20px",
-          marginBottom: "25px",
-          flexWrap: "wrap",
+      <ActiveTickets
+        tickets={activeTickets}
+        onView={(ticket) => {
+          setSelectedTicket(ticket);
+          setAssignedWorker(
+            ticket.assignedWorker?.id || ""
+          );
         }}
-      >
+        onDelete={deleteTicket}
+      />
 
-        <button
-          style={styles.addWorkerButton}
-          onClick={() => window.location.href="/admin/trabajadores"}
-        >
-          👷 Trabajadores
-        </button>
+      <FinishedTickets
+        tickets={finishedTickets}
+        onView={(ticket) => {
+          setSelectedTicket(ticket);
+          setAssignedWorker(
+            ticket.assignedWorker?.id || ""
+          );
+        }}
+      />
 
-        <select
-          value={priorityFilter}
-          onChange={(e)=>setPriorityFilter(e.target.value)}
-          style={styles.filter}
-        >
-          <option value="all">Todas las prioridades</option>
-          <option value="high">🔴 Alta</option>
-          <option value="medium">🟠 Media</option>
-          <option value="low">🟢 Baja</option>
-        </select>
-
-        <select
-          value={workerFilter}
-          onChange={(e)=>setWorkerFilter(e.target.value)}
-          style={styles.filter}
-        >
-          <option value="all">Todos los trabajadores</option>
-
-          {workers.map(worker=>(
-            <option
-              key={worker.id}
-              value={worker.id}
-            >
-              {worker.name}
-            </option>
-          ))}
-
-        </select>
-
-      </div>
-
-      {tickets.filter((t) => {
-        const priorityOk =
-          priorityFilter === "all" ||
-          t.priority === priorityFilter;
-
-        const workerOk =
-          workerFilter === "all" ||
-          t.assignedWorker?.id === workerFilter;
-
-        return priorityOk && workerOk;
-      })
-      .map((t) => (
-        <div
-          key={t.id}
-          style={{
-            borderLeft: `8px solid ${getColor(t.priority)}`,
-            padding: "20px",
-            marginBottom: "20px",
-            backgroundColor: "#fff",
-            borderRadius: "10px",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
-          }}
-        >
-          <h3>{t.id}</h3>
-
-          <p><b>Usuario:</b> {t.user}</p>
-          <p><b>Empresa:</b> {t.company || "No indicada"}</p>
-          <p><b>Email:</b> {t.email}</p>
-          <p><b>Teléfono:</b> {t.phone || "No indicada"}</p>
-          <p><b>Prioridad:</b> {t.priority}</p>
-
-          <p>
-            <b>Estado:</b>{" "}
-            <span
-              style={{
-                padding: "5px 10px",
-                borderRadius: "8px",
-                color: "#fff",
-                background:
-                  t.status === "En camino"
-                    ? "#f39c12"
-                    : t.status === "En cliente"
-                    ? "#3498db"
-                    : t.status === "En progreso"
-                    ? "#9b59b6"
-                    : t.status === "Finalizada"
-                    ? "#2ecc71"
-                    : "#777",
-              }}
-            >
-              {t.status || "ASIGNADA"}
-            </span>
-          </p>
-
-          <p>
-            <b>👷 Asignado a:</b>{" "}
-            {t.assignedWorker
-              ? `${t.assignedWorker.name} (${t.assignedWorker.role})`
-              : "Sin asignar"}
-          </p>
-
-          <div style={styles.actions}>
-            <button
-              style={styles.viewBtn}
-              onClick={() => {
-                setSelectedTicket(t);
-
-                setAssignedWorker(
-                  t.assignedWorker?.id || ""
-                );
-
-              }}
-            >
-              👁 Ver
-            </button>
-
-            <button
-              style={styles.deleteBtn}
-              onClick={() => deleteTicket(t.id)}
-            >
-              🗑 Eliminar
-            </button>
-          </div>
-        </div>
-      ))}
-
-      {/* POPUP DETALLE */}
       {selectedTicket && (
-        <div style={styles.overlay}>
-          <div style={styles.modal}>
-            <h2>{selectedTicket.id}</h2>
-
-            <p><b>Usuario:</b> {selectedTicket.user}</p>
-            <p><b>Empresa:</b> {selectedTicket.company || "No indicada"}</p>
-            <p><b>Email:</b> {selectedTicket.email}</p>
-            <p><b>Teléfono:</b> {selectedTicket.phone || "No indicado"}</p>
-            <p><b>Ubicación:</b> {selectedTicket.location}</p>
-
-            <h3 style={{
-              marginTop: "20px",
-              marginBottom: "15px",
-              }}>
-                💬 Conversación</h3>
-
-            <div style={styles.chat}>
-              {selectedTicket.conversation?.map((msg, index) => (
-                <div
-                  key={index}
-                  style={{
-                    marginBottom: "15px",
-                  }}
-                >
-                  <strong>
-                    {msg.role === "user"
-                      ? `${selectedTicket.user} (Usuario)`
-                      : "IA"}
-                  </strong>
-
-                  <div
-                    style={{
-                      marginTop: "5px",
-                      marginLeft: "10px",
-                      whiteSpace: "pre-wrap",
-                    }}
-                  >
-                    {msg.content}
-                  </div>
-                </div>
-              ))}
-            </div>
-            {/* HISTORIAL DEL TRABAJADOR */}
-            <hr style={{ marginTop: 25, marginBottom: 20 }} />
-            <h3>📜 Historial del trabajador</h3>
-            <div
-              style={{
-                background: "#fafafa",
-                border: "1px solid #ddd",
-                borderRadius: "10px",
-                padding: "15px",
-                maxHeight: "250px",
-                overflowY: "auto",
-                marginBottom: "20px",
-              }}
-            >
-
-              {selectedTicket.history?.length ? (
-                selectedTicket.history
-                  .slice()
-                  .reverse()
-                  .map((item, index) => (
-                    <div
-                      key={index}
-                      style={{
-                        paddingBottom: "10px",
-                        marginBottom: "10px",
-                        borderBottom: "1px solid #eee",
-                      }}
-                    >
-                      <b>{item.worker}</b>
-
-                      <br />
-                      {item.action}
-                      <br />
-
-                      <small style={{ color: "#666" }}>
-                        {new Date(item.date).toLocaleString()}
-                      </small>
-                    </div>
-                  ))
-              ) : (
-                <p>No hay movimientos todavía.</p>
-              )}
-            </div>
-            <select
-                value={assignedWorker}
-                onChange={(e) => setAssignedWorker(e.target.value)}
-              >
-                <option value="">Selecciona un trabajador</option>
-
-                {workers.map((worker) => (
-                  <option
-                    key={worker.id}
-                    value={worker.id}
-                  >
-                    {worker.name} - {worker.role} ({worker.level})
-                  </option>
-                ))}
-              </select>
-
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  gap: "12px",
-                  marginTop: "20px",
-                }}
-              >
-              <button
-                onClick={assignWorker}
-                style={{
-                  flex: 1,
-                  background: "#1976d2",
-                  color: "#fff",
-                  padding: "10px",
-                  border: "none",
-                  borderRadius: "8px",
-                  cursor: "pointer",
-                }}
-              >
-                {selectedTicket?.assignedWorker
-                  ? "🔄 Reasignar trabajador"
-                  : "👷 Asignar trabajador"}
-              </button>
-                <button
-                  onClick={() => setSelectedTicket(null)}
-                  style={{
-                    flex: 1,
-                    background: "#ff0000",
-                    color: "#fff",
-                    padding: "10px",
-                    border: "none",
-                    borderRadius: "8px",
-                    cursor: "pointer",
-                  }}
-                >
-                  Cerrar
-                </button>
-              </div>
-          </div>
-        </div>
+        <TicketModal
+          ticket={selectedTicket}
+          workers={workers}
+          assignedWorker={assignedWorker}
+          setAssignedWorker={setAssignedWorker}
+          assignWorker={assignWorker}
+          close={() => setSelectedTicket(null)}
+        />
       )}
     </div>
   );
 }
 
-// =========================
-// 🎨 ESTILOS
-// =========================
 const styles = {
   container: {
     padding: "30px",
     backgroundColor: "#f4f6f8",
     minHeight: "100vh",
     color: "#111",
-    border: "2px black",
-  },
-
-  actions: {
-    display: "flex",
-    gap: "10px",
-    marginTop: "12px",
-  },
-
-  viewBtn: {
-    padding: "8px 14px",
-    backgroundColor: "#1976d2",
-    color: "#fff",
-    border: "none",
-    borderRadius: "6px",
-    cursor: "pointer",
-    fontWeight: "bold",
-  },
-
-  deleteBtn: {
-    padding: "8px 14px",
-    backgroundColor: "#d60000",
-    color: "#fff",
-    border: "none",
-    borderRadius: "6px",
-    cursor: "pointer",
-    fontWeight: "bold",
-  },
-
-  overlay: {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    backgroundColor: "rgba(0,0,0,0.5)",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  modal: {
-    backgroundColor: "#fff",
-    padding: "25px",
-    borderRadius: "10px",
-    width: "90%",
-    maxWidth: "700px",
-    color: "#111",
-    maxHeight: "90vh",      
-    overflowY: "auto",      
-  },
-
-  chat: {
-    whiteSpace: "pre-wrap",
-    backgroundColor: "#ffffff",
-    color: "#111",
-    padding: "12px",
-    borderRadius: "6px",
-    border: "1px solid #ddd",
-    maxHeight: "300px",
-    overflowY: "auto",
-  },
-
-  closeBtn: {
-    marginTop: "15px",
-    padding: "10px 14px",
-    backgroundColor: "green",
-    color: "#fff",
-    border: "none",
-    borderRadius: "6px",
-    cursor: "pointer",
-  },
-
-  filter: {
-    padding: "10px",
-    borderRadius: "8px",
-    border: "1px solid #ccc",
-    minWidth: "220px",
-    background: "#fff",
-    cursor: "pointer",
-  },
-
-  addWorkerButton: {
-    padding: "10px 18px",
-    background: "#000",
-    color: "#fff",
-    border: "none",
-    borderRadius: "8px",
-    cursor: "pointer",
   },
 };

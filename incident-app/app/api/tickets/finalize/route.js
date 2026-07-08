@@ -46,8 +46,8 @@ export async function POST(req){
 
     tickets[index].status=
       resolved
-      ?"FINALIZADA"
-      :"PENDIENTE";
+      ?"Finalizado"
+      :"Pendiente";
 
     if(!tickets[index].history){
       tickets[index].history=[];
