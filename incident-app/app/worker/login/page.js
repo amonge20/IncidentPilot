@@ -5,6 +5,7 @@ import { useState } from "react";
 export default function LoginWorker(){
 
     const [email,setEmail]=useState("");
+    const [password,setPassword]=useState("");
 
     const login=async()=>{
         const res=await fetch("/api/workers/login",{
@@ -16,7 +17,8 @@ export default function LoginWorker(){
             },
 
             body:JSON.stringify({
-                email
+                email,
+                password
             })
         });
 
@@ -46,6 +48,18 @@ export default function LoginWorker(){
                 placeholder="Correo"
                 value={email}
                 onChange={(e)=>setEmail(e.target.value)}
+                style={{
+                    width:"100%",
+                    padding:"12px",
+                    marginBottom:"20px"
+                }}
+            />
+
+            <input
+                type="password"
+                placeholder="Contraseña"
+                value={password}
+                onChange={(e)=>setPassword(e.target.value)}
                 style={{
                     width:"100%",
                     padding:"12px",

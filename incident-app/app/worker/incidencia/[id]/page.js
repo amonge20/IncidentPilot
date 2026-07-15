@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
-import WorkerHeader from "../../components/WorkerHeader";
 import TicketInfo from "../../components/TicketInfo";
 import SummaryBox from "../../components/SummaryBox";
 import ActionButtons from "../../components/ActionButtons";
 import TicketHistory from "../../components/TicketHistory";
+import WorkerAIChat from "../../components/WorkerAIChat";
 
 export default function WorkerIncidencia() {
   const { id } = useParams();
@@ -111,7 +111,6 @@ export default function WorkerIncidencia() {
         margin: "auto",
       }}
     >
-      <WorkerHeader ticket={ticket} />
 
       <TicketInfo ticket={ticket} />
 
@@ -123,6 +122,8 @@ export default function WorkerIncidencia() {
       />
 
       <TicketHistory history={ticket.history} />
+      
+      <WorkerAIChat ticket={ticket} />
 
       <button
         onClick={() => window.history.back()}

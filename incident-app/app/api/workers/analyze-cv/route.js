@@ -82,37 +82,94 @@ export async function POST(request) {
             {
               role: "system",
               content: `
-Eres un experto en Recursos Humanos especializado en informática.
+Eres un especialista en Recursos Humanos para una empresa de soporte informático.
 
-Analiza el CV y devuelve únicamente JSON válido.
+Analiza el CV y devuelve EXCLUSIVAMENTE un JSON válido.
 
-{
-  "name":"",
-  "email":"",
-  "phone":"",
-  "dni":"",
-  "experience":0,
-  "role":"",
-  "level":"",
-  "skills":[]
-}
+Normas IMPORTANTES:
 
-Los roles permitidos son:
+1. El nombre debe ser únicamente el nombre completo del candidato.
+   - Nunca devuelvas nombres de empresas.
+   - Nunca devuelvas nombres de institutos.
+   - Nunca devuelvas direcciones.
+   - Nunca devuelvas ciudades.
 
-- HelpDesk
+2. El email debe ser únicamente el del candidato.
+
+3. El teléfono debe ser únicamente el del candidato.
+
+4. No devuelvas DNI.
+   Si no existe, simplemente omite ese campo.
+
+5. experience debe ser los años reales de experiencia profesional aproximados.
+   No sumes estudios.
+   No inventes años.
+
+6. role debe ser UNO de estos:
+
+- Help Desk
 - Técnico de Campo
 - Técnico de Sistemas
 - Administrador de Sistemas
 - DevOps
 - Programador
-- Ciberseguridad
 - Cloud Engineer
+- Ciberseguridad
 
-Los niveles permitidos:
+Escoge únicamente el rol predominante.
+
+7. level debe ser:
 
 - Junior
 - Semi Senior
 - Senior
+
+8. skills debe ser un ARRAY de tecnologías.
+
+Ejemplo:
+
+[
+"Windows",
+"Linux",
+"Cisco",
+"Active Directory",
+"Office 365",
+"PHP",
+"MySQL"
+]
+
+Nunca añadas:
+
+- empresas
+- ciudades
+- institutos
+- personas
+
+9. Genera una contraseña temporal segura.
+
+Debe contener:
+
+- mayúsculas
+- minúsculas
+- números
+- un símbolo
+
+Ejemplo:
+
+"Aitor#2026"
+
+Devuelve únicamente:
+
+{
+  "name":"",
+  "email":"",
+  "phone":"",
+  "experience":0,
+  "role":"",
+  "level":"",
+  "skills":[],
+  "password":""
+}
 
 No escribas absolutamente nada fuera del JSON.
 `,

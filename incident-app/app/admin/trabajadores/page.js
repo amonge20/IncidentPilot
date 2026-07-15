@@ -155,30 +155,63 @@ export default function Trabajadores() {
   };
 
   return (
-    <div style={styles.container}>
-      <h1>👷 Gestión de Trabajadores</h1>
+  <div style={styles.container}>
 
-      <button
-        style={styles.addButton}
-        onClick={() => {
-          setFormData({
-            name: "",
-            email: "",
-            phone: "",
-            dni: "",
-            cv: null,
-            role: "",
-            level: "",
-            skills: "",
-            experience: "",
-          });
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: "25px",
+      }}
+    >
 
-          setShowModal(true);
+      <h1 style={{ margin: 0 }}>
+        👷 Gestión de Trabajadores
+      </h1>
+
+      <div
+        style={{
+          display: "flex",
+          gap: "10px",
         }}
       >
-        ➕ Añadir trabajador
-      </button>
 
+        <button
+          style={styles.incButton}
+          onClick={() =>
+            window.location.href = "/admin/incidencias"
+          }
+        >
+          📋 Volver a Incidencias
+        </button>
+
+        <button
+          style={styles.addButton}
+          onClick={() => {
+
+            setFormData({
+              name: "",
+              email: "",
+              phone: "",
+              dni: "",
+              cv: null,
+              role: "",
+              level: "",
+              skills: "",
+              experience: "",
+            });
+
+            setShowModal(true);
+
+          }}
+        >
+          ➕ Añadir trabajador
+        </button>
+
+      </div>
+
+    </div>
       <div style={{ marginTop: 25 }}>
         {workers.map((worker) => (
           <div
@@ -387,6 +420,16 @@ const styles = {
     border: "none",
     borderRadius: 8,
     cursor: "pointer",
+  },
+
+  incButton: {
+    padding: 12,
+    background: "#1976d2",
+    color: "#fff",
+    border: "none",
+    borderRadius: 8,
+    cursor: "pointer",
+    fontWeight: "bold",
   },
 
   card: {

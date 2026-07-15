@@ -6,6 +6,7 @@ import Filters from "./components/Filters";
 import ActiveTickets from "./components/ActiveTickets";
 import FinishedTickets from "./components/FinishedTickets";
 import TicketModal from "./components/TicketModal";
+import SummaryBox from "./components/SummaryBox";
 
 export default function AdminIncidencias() {
 
@@ -22,6 +23,7 @@ export default function AdminIncidencias() {
   const [priorityFilter, setPriorityFilter] = useState("all");
   const [workerFilter, setWorkerFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [search, setSearch] = useState("all");
 
   // =============================
   // CARGAR TICKETS
@@ -120,7 +122,33 @@ export default function AdminIncidencias() {
     const statusOk =
       statusFilter === "all" ||
       t.status === statusFilter;
-    return priorityOk && workerOk && statusOk;
+
+    const text = search.toLowerCase();
+
+    const searchOk =
+      search === "" ||
+
+      t.id?.toLowerCase().includes(text) ||
+
+      t.user?.toLowerCase().includes(text) ||
+
+      t.company?.toLowerCase().includes(text) ||
+
+      t.email?.toLowerCase().includes(text) ||
+
+      t.phone?.toLowerCase().includes(text) ||
+
+      t.location?.toLowerCase().includes(text) ||
+
+      t.assignedWorker?.name?.toLowerCase().includes(text);
+
+    return (
+      priorityOk &&
+      workerOk &&
+      statusOk &&
+      searchOk
+    );
+
   });
 
   const activeTickets = filteredTickets.filter(
@@ -137,12 +165,44 @@ export default function AdminIncidencias() {
 
   return (
     <div style={styles.container}>
-      <h1>📋 Incidencias</h1>
+     
+     
+      <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: "25px",
+      }}
+    >
+      <h1 style={{ margin: 0 }}>
+        📋 Incidencias
+      </h1>
+
+      <button
+        onClick={() => window.location.href = "/admin/trabajadores"}
+        style={{
+          background: "#1976d2",
+          color: "#fff",
+          border: "none",
+          padding: "12px 20px",
+          borderRadius: "8px",
+          cursor: "pointer",
+          fontWeight: "bold",
+          fontSize: "15px",
+        }}
+      >
+        👷 Trabajadores
+      </button>
+    </div>
+      <SummaryBox tickets={tickets} />
       <Filters
         workers={workers}
         priorityFilter={priorityFilter}
         workerFilter={workerFilter}
         statusFilter={statusFilter}
+        search={search}
+        setSearch={setSearch}
         setPriorityFilter={setPriorityFilter}
         setWorkerFilter={setWorkerFilter}
         setStatusFilter={setStatusFilter}
