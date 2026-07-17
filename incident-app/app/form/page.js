@@ -134,7 +134,7 @@ export default function FormPage() {
   };
 
   // =========================
-  // ✔ SOLUCIONADO (SIN REDIRECCIÓN)
+  // SOLUCIONADO (SIN REDIRECCIÓN)
   // =========================
   const handleSolved = () => {
     setConfirmText("✅ Incidencia marcada como solucionada");

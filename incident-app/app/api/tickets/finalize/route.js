@@ -1,14 +1,10 @@
 import fs from "fs";
 import path from "path";
 
-const filePath = path.join(
-  process.cwd(),
-  "tickets.json"
-);
+const filePath = path.join(process.cwd(), "tickets.json");
 
-export async function POST(req){
-    
-  try{
+export async function POST(req) {
+  try {
     const {
       ticketId,
       worker,
@@ -17,71 +13,70 @@ export async function POST(req){
       component,
       resolved,
       pendingReason,
-    }=await req.json();
+      workerSignature,
+      clientSignature,
+    } = await req.json();
 
-    const tickets=JSON.parse(
-      fs.readFileSync(filePath,"utf8")
-    );
+    const tickets = JSON.parse(fs.readFileSync(filePath, "utf8"));
 
-    const index=tickets.findIndex(
-      t=>t.id===ticketId
-    );
+    const index = tickets.findIndex((t) => t.id === ticketId);
 
-    if(index===-1){
+    if (index === -1) {
       return Response.json({
-        success:false,
-        message:"Incidencia no encontrada"
+        success: false,
+        message: "Incidencia no encontrada",
       });
     }
 
-    tickets[index].workReport={
+    tickets[index].workReport = {
       problem,
       solution,
       component,
       resolved,
       pendingReason,
-      worker:worker.name,
-      finishedAt:new Date().toISOString(),
+      worker: worker.name,
+      workerSignature,
+      clientSignature,
+      finishedAt: new Date().toISOString(),
     };
 
-    tickets[index].status=
-      resolved
-      ?"Finalizado"
-      :"Pendiente";
+    tickets[index].signatures = {
+      worker: {
+        name: worker.name,
+        image: workerSignature,
+        date: new Date().toISOString(),
+      },
+      client: {
+        image: clientSignature,
+        date: new Date().toISOString(),
+      },
+    };
 
-    if(!tickets[index].history){
-      tickets[index].history=[];
+    tickets[index].status = resolved ? "Finalizado" : "Pendiente";
+
+    if (!tickets[index].history) {
+      tickets[index].history = [];
     }
 
     tickets[index].history.push({
+      worker: worker.name,
 
-      worker:worker.name,
-
-      action:resolved
-        ?"Ha finalizado la incidencia"
-        :"La incidencia queda pendiente",
-      date:new Date().toISOString(),
+      action: resolved
+        ? "Ha finalizado la incidencia"
+        : "La incidencia queda pendiente",
+      date: new Date().toISOString(),
     });
 
-    fs.writeFileSync(
-      filePath,
-      JSON.stringify(
-        tickets,
-        null,
-        2
-      )
-    );
+    fs.writeFileSync(filePath, JSON.stringify(tickets, null, 2));
 
     return Response.json({
-      success:true
+      success: true,
     });
-  }
-
-  catch(err){
+  } catch (err) {
     console.log(err);
     return Response.json({
-      success:false,
-      message:"Error al finalizar"
+      success: false,
+      message: "Error al finalizar",
     });
   }
 }
